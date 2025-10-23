@@ -7,22 +7,32 @@ export default function Home() {
     {
       title: "Common Virulence Genes",
       desc: "Compare gene frequency across jejuni vs coli.",
+      tableauSrc:
+        "https://public.tableau.com/views/CampylobacterVirulenceGeneDashboard/Dashboard1?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
     },
     {
       title: "Virulence Roles by Species",
       desc: "Functional roles of virulence genes.",
+      tableauSrc:
+        "https://public.tableau.com/views/CampylobacterVirulenceRoles/Dashboard2?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
     },
     {
       title: "Gene Locations",
       desc: "Where virulence genes lie along the chromosome.",
+      tableauSrc:
+        "https://public.tableau.com/views/CampylobacterGeneLocations/Dashboard3?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
     },
     {
       title: "Host–Function Relationship",
       desc: "Link hosts to virulence traits.",
+      tableauSrc:
+        "https://public.tableau.com/views/CampylobacterHostFunction/Dashboard4?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
     },
     {
       title: "Universal Virulence Genes",
       desc: "Genes present across all hosts.",
+      tableauSrc:
+        "https://public.tableau.com/views/CampylobacterUniversalGenes/Dashboard5?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
     },
   ];
 
@@ -101,8 +111,17 @@ export default function Home() {
               </div>
 
               {/* Tableau visual placeholder */}
-              <div className="bg-gray-100 rounded-xl h-72 w-full flex items-center justify-center text-gray-500 italic hover:bg-gray-200 transition">
-                Tableau embed will go here
+              {/* Tableau embed */}
+              <div className="relative rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-gray-50">
+                <iframe
+                  src={v.tableauSrc}
+                  className="w-full min-h-[500px] max-h-[70vh] border-none"
+                  title={v.title}
+                  loading="lazy"
+                ></iframe>
+
+                {/* Subtle fade overlay (nice for transitions) */}
+                <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-gray-50/90 to-transparent pointer-events-none"></div>
               </div>
             </div>
           ))}
@@ -122,48 +141,56 @@ export default function Home() {
           dashboards for interactive exploration.
         </p>
       </Section>
-{/* TEAM SECTION */}
-<Section id="team" title="Our Team">
-  <p className="text-gray-700 mb-8">
-    Developed by a group of research enthusiasts exploring data-driven biology.
-  </p>
+      {/* TEAM SECTION */}
+      <Section id="team" title="Our Team">
+        <p className="text-gray-700 mb-8">
+          Developed by a group of research enthusiasts exploring data-driven
+          biology.
+        </p>
 
-  <div className="flex flex-col md:flex-row justify-center items-center gap-10">
-    {/* Member 1 */}
-    <div className="flex flex-col items-center text-center">
-      <img
-        src="images/Headshots/Gerald.jpeg"
-        alt="Team member 1"
-        className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
-      />
-      <h4 className="mt-4 text-lg font-semibold text-gray-900">Gerald Shimo</h4>
-      <p className="text-gray-600 text-sm">Full-Stack Developer</p>
-    </div>
+        <div className="flex flex-col md:flex-row justify-center items-center gap-10">
+          {/* Member 1 */}
+          <div className="flex flex-col items-center text-center">
+            <img
+              src="images/Headshots/Gerald.jpeg"
+              alt="Team member 1"
+              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+            />
+            <h4 className="mt-4 text-lg font-semibold text-gray-900">
+              Gerald Shimo
+            </h4>
+            <p className="text-gray-600 text-sm">Full-Stack Developer</p>
+          </div>
 
-    {/* Member 2 */}
-    <div className="flex flex-col items-center text-center">
-      <img
-        src="images/Headshots/Hawu.jpeg"
-        alt="Team member 2"
-        className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
-      />
-      <h4 className="mt-4 text-lg font-semibold text-gray-900">Hawulethu Ndlovu</h4>
-      <p className="text-gray-600 text-sm">Product Manager and Data Analyst</p>
-    </div>
+          {/* Member 2 */}
+          <div className="flex flex-col items-center text-center">
+            <img
+              src="images/Headshots/Hawu.jpeg"
+              alt="Team member 2"
+              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+            />
+            <h4 className="mt-4 text-lg font-semibold text-gray-900">
+              Hawulethu Ndlovu
+            </h4>
+            <p className="text-gray-600 text-sm">
+              Product Manager and Data Analyst
+            </p>
+          </div>
 
-    {/* Member 3 */}
-    <div className="flex flex-col items-center text-center">
-      <img
-        src="/images/member3.jpg"
-        alt="Team member 3"
-        className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
-      />
-      <h4 className="mt-4 text-lg font-semibold text-gray-900">Praise Fabiyi</h4>
-      <p className="text-gray-600 text-sm">Biologist</p>
-    </div>
-  </div>
-</Section>
-
+          {/* Member 3 */}
+          <div className="flex flex-col items-center text-center">
+            <img
+              src="/images/member3.jpg"
+              alt="Team member 3"
+              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+            />
+            <h4 className="mt-4 text-lg font-semibold text-gray-900">
+              Praise Fabiyi
+            </h4>
+            <p className="text-gray-600 text-sm">Biologist</p>
+          </div>
+        </div>
+      </Section>
     </>
   );
 }
