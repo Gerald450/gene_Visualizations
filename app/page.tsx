@@ -2,14 +2,39 @@ import Section from "@/components/Section";
 import StoryCard from "@/components/StoryCard";
 
 export default function Home() {
- const visuals = [
-  { title: "Common Virulence Genes", desc: "Compare gene frequency across jejuni vs coli." },
-  { title: "Virulence Roles by Species", desc: "Functional roles of virulence genes." },
-  { title: "Gene Locations", desc: "Where virulence genes lie along the chromosome." },
-  { title: "Host–Function Relationship", desc: "Link hosts to virulence traits." },
-  { title: "Universal Virulence Genes", desc: "Genes present across all hosts." },
-];
-
+  //for commit
+  const visuals = [
+    {
+      title: "Common Virulence Genes",
+      desc: "Compare gene frequency across jejuni vs coli.",
+      tableauSrc:
+        "https://public.tableau.com/views/VirulenceGene_17612389337390/Dash1?:showVizHome=no&:embed=true?:showVizHome=no&:embed=true&:tabs=no&:toolbar=no",
+    },
+    {
+      title: "Virulence Roles by Species",
+      desc: "Functional roles of virulence genes.",
+      tableauSrc:
+        "https://public.tableau.com/views/VirulenceGene_17612389337390/Dash2?:showVizHome=no&:embed=true?:showVizHome=no&:embed=true&:tabs=no&:toolbar=no",
+    },
+    {
+      title: "Gene Locations",
+      desc: "Where virulence genes lie along the chromosome.",
+      tableauSrc:
+        "https://public.tableau.com/views/CampylobacterGeneLocations/Dashboard3?:showVizHome=no&:embed=true",
+    },
+    {
+      title: "Host–Function Relationship",
+      desc: "Link hosts to virulence traits.",
+      tableauSrc:
+        "https://public.tableau.com/views/CampylobacterHostFunction/Dashboard4?:showVizHome=no&:embed=true",
+    },
+    {
+      title: "Universal Virulence Genes",
+      desc: "Genes present across all hosts.",
+      tableauSrc:
+        "https://public.tableau.com/views/CampylobacterUniversalGenes/Dashboard5?:showVizHome=no&:embed=true",
+    },
+  ];
   return (
     <>
       {/* HERO SECTION */}
@@ -74,22 +99,26 @@ export default function Home() {
           {visuals.map((v, i) => (
             <div
               key={v.title}
-              className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition p-10 flex flex-col md:flex-row items-center gap-8"
+              className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition p-10"
             >
-              {/* Left side: text */}
-              <div className="md:w-1/2 text-left">
+              {/* Text section */}
+              <div className="text-left mb-8">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-3">
                   {v.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed mb-4">{v.desc}</p>
-                <button className="mt-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition">
-                  View Visualization
-                </button>
+                <p className="text-gray-600 leading-relaxed">{v.desc}</p>
               </div>
+              {/* Tableau embed */}
+              <div className="relative rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-gray-50">
+                <iframe
+                  src={v.tableauSrc}
+                  className="w-full min-h-[500px] max-h-[70vh] border-none"
+                  title={v.title}
+                  loading="lazy"
+                ></iframe>
 
-              {/* Right side: placeholder visual */}
-              <div className="md:w-1/2 bg-gray-100 rounded-xl h-64 w-full flex items-center justify-center text-gray-500 italic">
-                Tableau embed will go here
+                {/* Subtle fade overlay (nice for transitions) */}
+                <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-gray-50/90 to-transparent pointer-events-none"></div>
               </div>
             </div>
           ))}
@@ -109,13 +138,55 @@ export default function Home() {
           dashboards for interactive exploration.
         </p>
       </Section>
-
       {/* TEAM SECTION */}
       <Section id="team" title="Our Team">
-        <p className="text-gray-700">
+        <p className="text-gray-700 mb-8">
           Developed by a group of research enthusiasts exploring data-driven
           biology.
         </p>
+
+        <div className="flex flex-col md:flex-row justify-center items-center gap-10">
+          {/* Member 1 */}
+          <div className="flex flex-col items-center text-center">
+            <img
+              src="images/Headshots/Gerald.jpeg"
+              alt="Team member 1"
+              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+            />
+            <h4 className="mt-4 text-lg font-semibold text-gray-900">
+              Gerald Shimo
+            </h4>
+            <p className="text-gray-600 text-sm">Full-Stack Developer</p>
+          </div>
+
+          {/* Member 2 */}
+          <div className="flex flex-col items-center text-center">
+            <img
+              src="images/Headshots/Hawu.jpeg"
+              alt="Team member 2"
+              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+            />
+            <h4 className="mt-4 text-lg font-semibold text-gray-900">
+              Hawulethu Ndlovu
+            </h4>
+            <p className="text-gray-600 text-sm">
+              Product Manager and Data Analyst
+            </p>
+          </div>
+
+          {/* Member 3 */}
+          <div className="flex flex-col items-center text-center">
+            <img
+              src="/images/member3.jpg"
+              alt="Team member 3"
+              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+            />
+            <h4 className="mt-4 text-lg font-semibold text-gray-900">
+              Praise Fabiyi
+            </h4>
+            <p className="text-gray-600 text-sm">Biologist</p>
+          </div>
+        </div>
       </Section>
     </>
   );

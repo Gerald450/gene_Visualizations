@@ -17,7 +17,7 @@ export default function Navbar() {
       name: "Visuals",
       options: [
         { label: "Storylines", href: "#visuals" },
-        { label: "Demo Section", href: "#demo" },
+        { label: "Interactive Demo", href: "#demo" },
       ],
     },
     {
@@ -31,51 +31,56 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-      <div className="relative flex items-center justify-between max-w-7xl mx-auto px-8 py-4">
+      <div className="relative max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Left: Logo */}
         <SmoothScrollLink
           href="#hero"
-          className="text-2xl font-bold tracking-tight whitespace-nowrap"
+          className="text-2xl font-bold tracking-tight"
         >
           <span className="text-gray-900">Virulence</span>{" "}
           <span className="text-blue-600">Insights</span>
         </SmoothScrollLink>
 
-        {/* Center: Absolutely centered navigation */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center space-x-10 text-gray-700 font-medium">
+        {/* Center: Nav Links */}
+        <div className="hidden md:flex space-x-8 text-gray-700 font-medium absolute left-1/2 -translate-x-1/2">
           {tabs.map((tab) => (
             <div
               key={tab.name}
-              className="relative group"
+              className="relative"
               onMouseEnter={() => setOpenTab(tab.name)}
               onMouseLeave={() => setOpenTab(null)}
             >
+              {/* Main Tab */}
               <button className="hover:text-blue-600 transition">
                 {tab.name}
               </button>
 
-              {/* Dropdown menu */}
-              {openTab === tab.name && (
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-48 bg-white/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-100 py-2 animate-fadeIn">
-                  {tab.options.map((opt) => (
-                    <SmoothScrollLink
-                      key={opt.label}
-                      href={opt.href}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition"
-                    >
-                      {opt.label}
-                    </SmoothScrollLink>
-                  ))}
-                </div>
-              )}
+              {/* Dropdown */}
+              <div
+                className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-2 transition-all duration-150 ${
+                  openTab === tab.name
+                    ? "opacity-100 visible translate-y-0"
+                    : "opacity-0 invisible -translate-y-1"
+                }`}
+              >
+                {tab.options.map((opt) => (
+                  <SmoothScrollLink
+                    key={opt.label}
+                    href={opt.href}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                  >
+                    {opt.label}
+                  </SmoothScrollLink>
+                ))}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Right: Explore button */}
+        {/* Right: CTA */}
         <SmoothScrollLink
           href="#visuals"
-          className="hidden md:inline-flex px-5 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition whitespace-nowrap"
+          className="hidden md:inline-flex px-4 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition"
         >
           Explore
         </SmoothScrollLink>
