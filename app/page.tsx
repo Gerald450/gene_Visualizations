@@ -80,37 +80,34 @@ export default function Home() {
         </div>
       </Section>
 
-     {/* VISUALS SECTION */}
-<Section
-  id="visuals"
-  title="Visual Storylines"
-  subtitle="Explore key questions about virulence genes through interactive data narratives."
->
-  <div className="flex flex-col gap-16">
-    {visuals.map((v, i) => (
-      <div
-        key={v.title}
-        className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition p-10"
+      {/* VISUALS SECTION */}
+      <Section
+        id="visuals"
+        title="Visual Storylines"
+        subtitle="Explore key questions about virulence genes through interactive data narratives."
       >
-        {/* Text section */}
-        <div className="text-left mb-8">
-          <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-            {v.title}
-          </h3>
-          <p className="text-gray-600 leading-relaxed">
-            {v.desc}
-          </p>
-        </div>
+        <div className="flex flex-col gap-16">
+          {visuals.map((v, i) => (
+            <div
+              key={v.title}
+              className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition p-10"
+            >
+              {/* Text section */}
+              <div className="text-left mb-8">
+                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+                  {v.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">{v.desc}</p>
+              </div>
 
-        {/* Tableau visual placeholder */}
-        <div className="bg-gray-100 rounded-xl h-72 w-full flex items-center justify-center text-gray-500 italic hover:bg-gray-200 transition">
-          Tableau embed will go here
+              {/* Tableau visual placeholder */}
+              <div className="bg-gray-100 rounded-xl h-72 w-full flex items-center justify-center text-gray-500 italic hover:bg-gray-200 transition">
+                Tableau embed will go here
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
-    ))}
-  </div>
-</Section>
-
+      </Section>
 
       {/* ABOUT SECTION */}
       <Section
@@ -125,14 +122,48 @@ export default function Home() {
           dashboards for interactive exploration.
         </p>
       </Section>
+{/* TEAM SECTION */}
+<Section id="team" title="Our Team">
+  <p className="text-gray-700 mb-8">
+    Developed by a group of research enthusiasts exploring data-driven biology.
+  </p>
 
-      {/* TEAM SECTION */}
-      <Section id="team" title="Our Team">
-        <p className="text-gray-700">
-          Developed by a group of research enthusiasts exploring data-driven
-          biology.
-        </p>
-      </Section>
+  <div className="flex flex-col md:flex-row justify-center items-center gap-10">
+    {/* Member 1 */}
+    <div className="flex flex-col items-center text-center">
+      <img
+        src="images/Headshots/Gerald.jpeg"
+        alt="Team member 1"
+        className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+      />
+      <h4 className="mt-4 text-lg font-semibold text-gray-900">Gerald Shimo</h4>
+      <p className="text-gray-600 text-sm">Full-Stack Developer</p>
+    </div>
+
+    {/* Member 2 */}
+    <div className="flex flex-col items-center text-center">
+      <img
+        src="images/Headshots/Hawu.jpeg"
+        alt="Team member 2"
+        className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+      />
+      <h4 className="mt-4 text-lg font-semibold text-gray-900">Hawulethu Ndlovu</h4>
+      <p className="text-gray-600 text-sm">Product Manager and Data Analyst</p>
+    </div>
+
+    {/* Member 3 */}
+    <div className="flex flex-col items-center text-center">
+      <img
+        src="/images/member3.jpg"
+        alt="Team member 3"
+        className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+      />
+      <h4 className="mt-4 text-lg font-semibold text-gray-900">Praise Fabiyi</h4>
+      <p className="text-gray-600 text-sm">Biologist</p>
+    </div>
+  </div>
+</Section>
+
     </>
   );
 }
