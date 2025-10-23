@@ -80,39 +80,37 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* VISUALS SECTION */}
-      <Section
-        id="visuals"
-        title="Visual Storylines"
-        subtitle="Explore key questions about virulence genes through interactive data narratives."
+     {/* VISUALS SECTION */}
+<Section
+  id="visuals"
+  title="Visual Storylines"
+  subtitle="Explore key questions about virulence genes through interactive data narratives."
+>
+  <div className="flex flex-col gap-16">
+    {visuals.map((v, i) => (
+      <div
+        key={v.title}
+        className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition p-10"
       >
-        <div className="flex flex-col gap-16">
-          {visuals.map((v, i) => (
-            <div
-              key={v.title}
-              className={`bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition p-10 flex flex-col md:flex-row items-center gap-8 ${
-                i % 2 !== 0 ? "md:flex-row-reverse" : ""
-              }`}
-            >
-              {/* Left: Text section */}
-              <div className="md:w-1/2 text-left">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                  {v.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed mb-4">{v.desc}</p>
-                <button className="mt-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition">
-                  View Visualization
-                </button>
-              </div>
-
-              {/* Right: Placeholder for Tableau visual */}
-              <div className="md:w-1/2 bg-gray-100 rounded-xl h-64 w-full flex items-center justify-center text-gray-500 italic">
-                Tableau embed will go here
-              </div>
-            </div>
-          ))}
+        {/* Text section */}
+        <div className="text-left mb-8">
+          <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+            {v.title}
+          </h3>
+          <p className="text-gray-600 leading-relaxed">
+            {v.desc}
+          </p>
         </div>
-      </Section>
+
+        {/* Tableau visual placeholder */}
+        <div className="bg-gray-100 rounded-xl h-72 w-full flex items-center justify-center text-gray-500 italic hover:bg-gray-200 transition">
+          Tableau embed will go here
+        </div>
+      </div>
+    ))}
+  </div>
+</Section>
+
 
       {/* ABOUT SECTION */}
       <Section
