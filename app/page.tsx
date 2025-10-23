@@ -2,7 +2,6 @@ import Section from "@/components/Section";
 import { visuals } from "./data/visuals";
 
 export default function Home() {
-
   return (
     <>
       {/* HERO SECTION */}
@@ -80,9 +79,15 @@ export default function Home() {
               <div className="relative rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-gray-50">
                 <iframe
                   src={v.tableauSrc}
-                  className="w-full min-h-[500px] max-h-[70vh] border-none"
                   title={v.title}
                   loading="lazy"
+                  className="w-full border-none"
+                  style={{
+                    minHeight: `${v.height}px`,
+                    overflow: "visible",
+                    transform: "scale(1.02)",
+                    transformOrigin: "top center",
+                  }}
                 ></iframe>
 
                 {/* Subtle fade overlay (nice for transitions) */}
