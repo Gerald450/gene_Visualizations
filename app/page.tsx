@@ -8,34 +8,33 @@ export default function Home() {
       title: "Common Virulence Genes",
       desc: "Compare gene frequency across jejuni vs coli.",
       tableauSrc:
-        "https://public.tableau.com/views/CampylobacterVirulenceGeneDashboard/Dashboard1?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
+        "https://public.tableau.com/views/VirulenceGene_17612389337390/Dash1?:showVizHome=no&:embed=true",
     },
     {
       title: "Virulence Roles by Species",
       desc: "Functional roles of virulence genes.",
       tableauSrc:
-        "https://public.tableau.com/views/CampylobacterVirulenceRoles/Dashboard2?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
+        "https://public.tableau.com/views/VirulenceGene_17612389337390/Dash2?:showVizHome=no&:embed=true",
     },
     {
       title: "Gene Locations",
       desc: "Where virulence genes lie along the chromosome.",
       tableauSrc:
-        "https://public.tableau.com/views/CampylobacterGeneLocations/Dashboard3?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
+        "https://public.tableau.com/views/CampylobacterGeneLocations/Dashboard3?:showVizHome=no&:embed=true",
     },
     {
       title: "Host–Function Relationship",
       desc: "Link hosts to virulence traits.",
       tableauSrc:
-        "https://public.tableau.com/views/CampylobacterHostFunction/Dashboard4?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
+        "https://public.tableau.com/views/CampylobacterHostFunction/Dashboard4?:showVizHome=no&:embed=true",
     },
     {
       title: "Universal Virulence Genes",
       desc: "Genes present across all hosts.",
       tableauSrc:
-        "https://public.tableau.com/views/CampylobacterUniversalGenes/Dashboard5?:embed=y&:showVizHome=no&:toolbar=no&:tabs=n&:display_count=n",
+        "https://public.tableau.com/views/CampylobacterUniversalGenes/Dashboard5?:showVizHome=no&:embed=true",
     },
   ];
-
   return (
     <>
       {/* HERO SECTION */}
@@ -109,8 +108,6 @@ export default function Home() {
                 </h3>
                 <p className="text-gray-600 leading-relaxed">{v.desc}</p>
               </div>
-
-              {/* Tableau visual placeholder */}
               {/* Tableau embed */}
               <div className="relative rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-gray-50">
                 <iframe
