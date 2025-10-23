@@ -28,10 +28,10 @@ export default function Home() {
               Explore Visuals
             </a>
             <a
-              href="#about"
+              href="/campylobacter.xlsx"
               className="px-6 py-3 border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100 transition"
             >
-              Learn More
+              Download Excel File
             </a>
           </div>
         </div>
