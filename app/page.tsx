@@ -2,6 +2,7 @@ import Section from "@/components/Section";
 import StoryCard from "@/components/StoryCard";
 
 export default function Home() {
+  //for commit
   const visuals = [
     {
       title: "Common Virulence Genes",
