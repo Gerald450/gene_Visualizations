@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 text-center py-6 mt-10 text-sm text-gray-500">
-      © {new Date().getFullYear()} Virulence Insights — All rights reserved.
+    <footer className="py-10 text-center text-sm text-gray-500 border-t border-gray-100">
+      © {new Date().getFullYear()} Virulence Insights — Built with Next.js & Tailwind CSS.
     </footer>
   );
 }
