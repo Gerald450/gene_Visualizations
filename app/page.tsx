@@ -127,7 +127,7 @@ export default function Home() {
               className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
             />
             <h4 className="mt-4 text-lg font-semibold text-gray-900">
-              Gerald Shimo The GOAT
+              Gerald Shimo
             </h4>
             <p className="text-gray-600 text-sm">Full-Stack Developer</p>
           </div>
