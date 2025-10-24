@@ -16,7 +16,7 @@ export default function Home() {
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-10">
             Explore patterns in <em>Campylobacter jejuni</em> and{" "}
-            <em>Campylobacter coli</em>
+            <em>Campylobacter coli </em>
             through clear, data-driven storytelling.
           </p>
           <div className="flex justify-center gap-4">
@@ -150,7 +150,7 @@ export default function Home() {
           {/* Member 3 */}
           <div className="flex flex-col items-center text-center">
             <img
-              src="/images/member3.jpg"
+              src="images/Headshots/Praise.jpeg"
               alt="Team member 3"
               className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
             />
