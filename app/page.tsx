@@ -157,7 +157,7 @@ export default function Home() {
             <h4 className="mt-4 text-lg font-semibold text-gray-900">
               Praise Fabiyi
             </h4>
-            <p className="text-gray-600 text-sm">Biologist</p>
+            <p className="text-gray-600 text-sm">BioInformatics Engineer</p>
           </div>
         </div>
       </Section>
