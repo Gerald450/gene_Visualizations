@@ -64,14 +64,14 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
     },
   ];
 
-  const layout = {
-    title: `Host → Gene Flow (Top ${topK} Genes)`,
+  const layout: any = {
+    title: { text: `Host → Gene Flow (Top ${topK} Genes)` },
     font: { size: 12 },
     height: 600,
     margin: { l: 50, r: 50, t: 50, b: 50 },
   };
 
-  const config = {
+  const config: any = {
     responsive: true,
     displayModeBar: true,
   };

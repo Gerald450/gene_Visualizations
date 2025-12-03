@@ -58,14 +58,14 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
     },
   ];
 
-  const layout = {
-    title: 'Species → Host → Gene Count Hierarchy',
+  const layout: any = {
+    title: { text: 'Species → Host → Gene Count Hierarchy' },
     margin: { l: 0, r: 0, t: 50, b: 0 },
     sunburstcolorway: ['#636efa', '#ef553b', '#00cc96', '#ab63fa', '#ffa15a', '#19d3f3'],
     extendsunburstcolors: true,
   };
 
-  const config = {
+  const config: any = {
     responsive: true,
     displayModeBar: true,
   };

@@ -54,18 +54,18 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
     },
   ];
 
-  const layout = {
-    title: 'Gene Prevalence Across Hosts (%)',
+  const layout: any = {
+    title: { text: 'Gene Prevalence Across Hosts (%)' },
     xaxis: { title: 'Host Association' },
     yaxis: { title: 'Gene', automargin: true },
     height: Math.max(400, sortedGenes.length * 20),
     margin: { l: 150, r: 50, t: 50, b: 100 },
   };
 
-  const config = {
+  const config: any = {
     responsive: true,
     displayModeBar: true,
-    modeBarButtonsToRemove: ['pan2d', 'lasso2d'],
+    modeBarButtonsToRemove: ['pan2d', 'lasso2d'] as any,
   };
 
   return (
