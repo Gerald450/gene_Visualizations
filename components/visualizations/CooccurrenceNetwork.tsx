@@ -4,8 +4,8 @@ import { useData } from '../DataProvider';
 import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
 
-// Use react-force-graph for network visualization
-const ForceGraph2D = dynamic(() => import('react-force-graph').then(mod => mod.ForceGraph2D), { 
+// Use react-force-graph-2d for network visualization
+const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { 
   ssr: false 
 });
 

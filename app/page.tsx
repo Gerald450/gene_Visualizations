@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from "react";
 import Section from "@/components/Section";
 import { visuals } from "./data/visuals";
 import { DataProvider } from "@/components/DataProvider";
@@ -5,8 +8,17 @@ import StoryCard from "@/components/StoryCard";
 import BarChart from "@/components/BarChart";
 import Matrix from "@/components/Matrix";
 import GeneProfiles from "@/components/GeneProfiles";
+import Heatmap from "@/components/visualizations/Heatmap";
+import CooccurrenceNetwork from "@/components/visualizations/CooccurrenceNetwork";
+import SpeciesBarChart from "@/components/visualizations/SpeciesBarChart";
+import FunctionPie from "@/components/visualizations/FunctionPie";
+import Sunburst from "@/components/visualizations/Sunburst";
+import Sankey from "@/components/visualizations/Sankey";
 
 export default function Home() {
+  const [topN, setTopN] = useState(20);
+  const [showPercent, setShowPercent] = useState(false);
+
   return (
     <>
       {/* HERO SECTION */}
@@ -97,6 +109,78 @@ export default function Home() {
               desc="Explore virulence genes grouped by their functional processes (adhesion, invasion, mobility, toxin, etc.). Click to expand each category."
             >
               <GeneProfiles />
+            </StoryCard>
+
+            {/* Heatmap */}
+            <StoryCard
+              title="Gene Prevalence Heatmap"
+              desc="Heatmap showing prevalence percentage of each gene across different host associations. Rows represent genes (sorted alphabetically), columns represent hosts. Click on a gene to view its details."
+            >
+              <Heatmap />
+            </StoryCard>
+
+            {/* Co-occurrence Network */}
+            <StoryCard
+              title="Gene Co-Occurrence Network"
+              desc="Network graph showing which genes co-occur together across isolates. Node size represents total occurrences, link thickness represents co-occurrence frequency. Hover over nodes for gene details."
+            >
+              <CooccurrenceNetwork />
+            </StoryCard>
+
+            {/* Species Bar Chart */}
+            <StoryCard
+              title="Species-Specific Gene Distribution"
+              desc={`Comparison of gene counts/percentages between C. jejuni and C. coli for the top ${topN} genes. Shows absolute counts or percentages for each species.`}
+            >
+              <div className="mb-4 flex gap-4 items-center">
+                <label className="flex items-center gap-2 text-sm">
+                  <span>Top N:</span>
+                  <select
+                    value={topN}
+                    onChange={(e) => setTopN(Number(e.target.value))}
+                    className="border border-gray-300 rounded px-2 py-1"
+                  >
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={30}>30</option>
+                    <option value={50}>50</option>
+                  </select>
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={showPercent}
+                    onChange={(e) => setShowPercent(e.target.checked)}
+                    className="rounded border-gray-300"
+                  />
+                  <span>Show Percentages</span>
+                </label>
+              </div>
+              <SpeciesBarChart topN={topN} showPercent={showPercent} />
+            </StoryCard>
+
+            {/* Function Pie Chart */}
+            <StoryCard
+              title="Gene Function Distribution"
+              desc="Distribution of genes by functional category (Adhesion, Invasion, Toxin, Motility, Iron uptake, Stress response, Other). Hover to see counts and percentages."
+            >
+              <FunctionPie />
+            </StoryCard>
+
+            {/* Sunburst */}
+            <StoryCard
+              title="Hierarchical View: Species → Host → Gene Count"
+              desc="Sunburst diagram showing the hierarchy from all isolates, down to species (C. jejuni, C. coli), then hosts (Poultry, Human, etc.), with gene counts at each level."
+            >
+              <Sunburst />
+            </StoryCard>
+
+            {/* Sankey Diagram */}
+            <StoryCard
+              title="Host to Gene Flow"
+              desc={`Sankey diagram showing the flow from host categories to the top ${topN} genes. Link thickness represents the number of isolates containing each gene for that host.`}
+            >
+              <Sankey topK={topN} />
             </StoryCard>
 
             {/* Hidden Tableau Visuals - commented out for now */}
