@@ -31,19 +31,19 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
       <div className="relative max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Left: Logo */}
         <SmoothScrollLink
           href="#hero"
           className="text-2xl font-bold tracking-tight"
         >
-          <span className="text-gray-900">Virulence</span>{" "}
-          <span className="text-blue-600">Insights</span>
+          <span className="text-gray-900 dark:text-gray-100">Virulence</span>{" "}
+          <span className="text-blue-600 dark:text-blue-400">Insights</span>
         </SmoothScrollLink>
 
         {/* Center: Nav Links */}
-        <div className="hidden md:flex space-x-8 text-gray-700 font-medium absolute left-1/2 -translate-x-1/2">
+        <div className="hidden md:flex space-x-8 text-gray-700 dark:text-gray-300 font-medium absolute left-1/2 -translate-x-1/2">
           {tabs.map((tab) => (
             <div
               key={tab.name}
@@ -52,13 +52,13 @@ export default function Navbar() {
               onMouseLeave={() => setOpenTab(null)}
             >
               {/* Main Tab */}
-              <button className="hover:text-blue-600 transition">
+              <button className="hover:text-blue-600 dark:hover:text-blue-400 transition">
                 {tab.name}
               </button>
 
               {/* Dropdown */}
               <div
-                className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-2 transition-all duration-150 ${
+                className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-44 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 py-2 transition-all duration-150 ${
                   openTab === tab.name
                     ? "opacity-100 visible translate-y-0"
                     : "opacity-0 invisible -translate-y-1"
@@ -70,7 +70,7 @@ export default function Navbar() {
                       <SmoothScrollLink
                         key={opt.label}
                         href={opt.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400"
                       >
                         {opt.label}
                       </SmoothScrollLink>

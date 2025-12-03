@@ -51,15 +51,15 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
   }, [data]);
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-600">Loading network graph...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading network graph...</div>;
   }
 
   if (error || !data || !data.cooccurrence) {
-    return <div className="text-center py-8 text-red-600">Error: {error || 'No data available'}</div>;
+    return <div className="text-center py-8 text-red-600 dark:text-red-400">Error: {error || 'No data available'}</div>;
   }
 
   if (graphData.nodes.length === 0) {
-    return <div className="text-center py-8 text-gray-600">No co-occurrence data available</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">No co-occurrence data available</div>;
   }
 
   return (

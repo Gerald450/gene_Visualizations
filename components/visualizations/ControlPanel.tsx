@@ -20,17 +20,17 @@ export default function ControlPanel({
   onResetFilters,
 }: ControlPanelProps) {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6 shadow-sm">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-6 shadow-sm">
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
-          <label htmlFor="topN" className="text-sm font-medium text-gray-700">
+          <label htmlFor="topN" className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Top N Genes:
           </label>
           <select
             id="topN"
             value={topN}
             onChange={(e) => onTopNChange(Number(e.target.value))}
-            className="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 dark:border-gray-600 rounded px-3 py-1 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-label="Select number of top genes to display"
           >
             <option value={10}>10</option>
@@ -50,13 +50,13 @@ export default function ControlPanel({
               className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               aria-label="Toggle between counts and percentages"
             />
-            <span className="text-sm font-medium text-gray-700">Show Percentages</span>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Show Percentages</span>
           </label>
         </div>
 
         <button
           onClick={onResetFilters}
-          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-sm font-medium transition"
+          className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-sm font-medium transition"
           aria-label="Reset all filters"
         >
           Reset Filters

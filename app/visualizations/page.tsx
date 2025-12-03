@@ -33,14 +33,14 @@ export default function VisualizationsPage() {
 
   return (
     <DataProvider>
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">
               Campylobacter Virulence Gene Visualizations
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               Explore interactive visualizations of virulence gene data across hosts and species
             </p>
           </div>
@@ -119,11 +119,11 @@ export default function VisualizationsPage() {
 
           {/* Selected Gene Info */}
           {selectedGene && (
-            <div className="mb-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-blue-900 mb-2">
+            <div className="mb-8 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-300 mb-2">
                 Selected Gene: {selectedGene}
               </h3>
-              <p className="text-blue-700">
+              <p className="text-blue-700 dark:text-blue-400">
                 Gene information and profiles are available in the main dashboard.
               </p>
             </div>

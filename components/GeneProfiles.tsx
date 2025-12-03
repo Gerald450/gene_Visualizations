@@ -8,11 +8,11 @@ export default function GeneProfiles() {
   const [expandedProcess, setExpandedProcess] = useState<string | null>(null);
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-600">Loading gene profiles...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading gene profiles...</div>;
   }
 
   if (error || !data) {
-    return <div className="text-center py-8 text-red-600">Error: {error || 'No data available'}</div>;
+    return <div className="text-center py-8 text-red-600 dark:text-red-400">Error: {error || 'No data available'}</div>;
   }
 
   const processes = data.processes;
@@ -35,24 +35,24 @@ export default function GeneProfiles() {
             onToggle={(e) => {
               setExpandedProcess((e.target as HTMLDetailsElement).open ? processName : null);
             }}
-            className="border border-gray-200 rounded-lg overflow-hidden"
+            className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
           >
-            <summary className="px-4 py-3 bg-gray-100 cursor-pointer font-semibold hover:bg-gray-200 transition">
+            <summary className="px-4 py-3 bg-gray-100 dark:bg-gray-800 cursor-pointer font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition text-gray-900 dark:text-gray-100">
               {processName.charAt(0).toUpperCase() + processName.slice(1)} ({genes.length} genes)
             </summary>
-            <div className="px-4 py-3 bg-white">
+            <div className="px-4 py-3 bg-white dark:bg-gray-900">
               <div className="flex flex-wrap gap-2">
                 {genes.map(gene => {
                   const geneData = data.genes.find(g => g.geneName === gene);
                   return (
                     <div
                       key={gene}
-                      className="px-3 py-1 bg-blue-50 border border-blue-200 rounded text-sm"
+                      className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded text-sm"
                       title={geneData?.function || ''}
                     >
-                      <span className="font-medium">{gene}</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">{gene}</span>
                       {geneData?.cluster && (
-                        <span className="text-gray-600 ml-1">({geneData.cluster})</span>
+                        <span className="text-gray-600 dark:text-gray-400 ml-1">({geneData.cluster})</span>
                       )}
                     </div>
                   );

@@ -35,17 +35,17 @@ export default function SpeciesBarChart({ topN = 20, showPercent = false }: Spec
   const { data, loading, error, getTopGenes } = useData();
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-600">Loading chart...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading chart...</div>;
   }
 
   if (error || !data) {
-    return <div className="text-center py-8 text-red-600">Error: {error || 'No data available'}</div>;
+    return <div className="text-center py-8 text-red-600 dark:text-red-400">Error: {error || 'No data available'}</div>;
   }
 
   // Get top N genes or all genes if fewer than N
   const selectedGenes = getTopGenes(topN);
   if (selectedGenes.length === 0) {
-    return <div className="text-center py-8 text-gray-600">No gene data available</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">No gene data available</div>;
   }
 
   // Count genes by species - count occurrences in each species

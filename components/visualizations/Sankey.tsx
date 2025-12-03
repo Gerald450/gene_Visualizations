@@ -19,17 +19,17 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
   const { data, loading, error } = useData();
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-600">Loading Sankey diagram...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading Sankey diagram...</div>;
   }
 
   if (error || !data || !data.sankeyData) {
-    return <div className="text-center py-8 text-red-600">Error: {error || 'No data available'}</div>;
+    return <div className="text-center py-8 text-red-600 dark:text-red-400">Error: {error || 'No data available'}</div>;
   }
 
   const { nodes, links } = data.sankeyData;
 
   if (nodes.length === 0 || links.length === 0) {
-    return <div className="text-center py-8 text-gray-600">No Sankey data available</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">No Sankey data available</div>;
   }
 
   // Recompute with topK if different

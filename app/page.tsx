@@ -22,16 +22,16 @@ export default function Home() {
   return (
     <>
       {/* HERO SECTION */}
-      <section id="hero" className="text-center py-40 bg-gray-50 scroll-mt-20">
+      <section id="hero" className="text-center py-40 bg-gray-50 dark:bg-gray-900 scroll-mt-20">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-6xl font-bold leading-tight mb-6">
+          <h1 className="text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-gray-100">
             Data. Genes. Insights.
             <br />
-            <span className="text-blue-600">
+            <span className="text-blue-600 dark:text-blue-400">
               All in one interactive dashboard.
             </span>
           </h1>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-10">
+          <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto mb-10">
             Explore patterns in <em>Campylobacter jejuni</em> and{" "}
             <em>Campylobacter coli </em>
             through clear, data-driven storytelling.
@@ -45,13 +45,13 @@ export default function Home() {
             </a>
             <a
               href="#visuals"
-              className="px-6 py-3 border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100 transition"
+              className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
             >
               View Storylines
             </a>
             <a
               href="/campylobacter.xlsx"
-              className="px-6 py-3 border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100 transition"
+              className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
             >
               Download Excel File
             </a>
@@ -70,7 +70,7 @@ export default function Home() {
             (f) => (
               <div
                 key={f}
-                className="px-6 py-3 bg-white shadow-sm border border-gray-100 rounded-full text-gray-700 font-medium"
+                className="px-6 py-3 bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 rounded-full text-gray-700 dark:text-gray-300 font-medium"
               >
                 {f}
               </div>
@@ -133,12 +133,12 @@ export default function Home() {
               desc={`Comparison of gene counts/percentages between C. jejuni and C. coli for the top ${topN} genes. Shows absolute counts or percentages for each species.`}
             >
               <div className="mb-4 flex gap-4 items-center">
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
                   <span>Top N:</span>
                   <select
                     value={topN}
                     onChange={(e) => setTopN(Number(e.target.value))}
-                    className="border border-gray-300 rounded px-2 py-1"
+                    className="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   >
                     <option value={10}>10</option>
                     <option value={20}>20</option>
@@ -146,12 +146,12 @@ export default function Home() {
                     <option value={50}>50</option>
                   </select>
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
                   <input
                     type="checkbox"
                     checked={showPercent}
                     onChange={(e) => setShowPercent(e.target.checked)}
-                    className="rounded border-gray-300"
+                    className="rounded border-gray-300 dark:border-gray-600"
                   />
                   <span>Show Percentages</span>
                 </label>
@@ -222,7 +222,7 @@ export default function Home() {
         title="About This Project"
         subtitle="Turning complex virulence gene data into simple insights."
       >
-        <p className="text-gray-700 text-lg leading-relaxed max-w-3xl mx-auto">
+        <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed max-w-3xl mx-auto">
           Virulence Insights is a student-led data storytelling project that
           visualizes patterns in *Campylobacter jejuni* and *Campylobacter coli*
           virulence factors. Built with Next.js, it integrates interactive
@@ -231,7 +231,7 @@ export default function Home() {
       </Section>
       {/* TEAM SECTION */}
       <Section id="team" title="Our Team">
-        <p className="text-gray-700 mb-8">
+        <p className="text-gray-700 dark:text-gray-300 mb-8">
           Developed by a group of research enthusiasts exploring data-driven
           biology.
         </p>

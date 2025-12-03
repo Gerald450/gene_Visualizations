@@ -19,11 +19,11 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
   const { data, loading, error } = useData();
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-600">Loading heatmap...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading heatmap...</div>;
   }
 
   if (error || !data) {
-    return <div className="text-center py-8 text-red-600">Error: {error || 'No data available'}</div>;
+    return <div className="text-center py-8 text-red-600 dark:text-red-400">Error: {error || 'No data available'}</div>;
   }
 
   // Get all unique genes and sort alphabetically

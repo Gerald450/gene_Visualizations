@@ -17,11 +17,11 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
   const { data, loading, error } = useData();
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-600">Loading sunburst...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading sunburst...</div>;
   }
 
   if (error || !data || !data.sunburstHierarchy) {
-    return <div className="text-center py-8 text-red-600">Error: {error || 'No data available'}</div>;
+    return <div className="text-center py-8 text-red-600 dark:text-red-400">Error: {error || 'No data available'}</div>;
   }
 
   // Convert hierarchy to Plotly sunburst format
