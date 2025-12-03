@@ -1,5 +1,10 @@
 import Section from "@/components/Section";
 import { visuals } from "./data/visuals";
+import { DataProvider } from "@/components/DataProvider";
+import StoryCard from "@/components/StoryCard";
+import BarChart from "@/components/BarChart";
+import Matrix from "@/components/Matrix";
+import GeneProfiles from "@/components/GeneProfiles";
 
 export default function Home() {
   return (
@@ -57,46 +62,69 @@ export default function Home() {
       </Section>
 
       {/* VISUALS SECTION */}
-      <Section
-        id="visuals"
-        title="Visual Storylines"
-        subtitle="Explore key questions about virulence genes through interactive data narratives."
-      >
-        <div className="flex flex-col gap-16">
-          {visuals.map((v, i) => (
-            <div
-              key={v.title}
-              className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition p-10"
+      <DataProvider>
+        <Section
+          id="visuals"
+          title="Visual Storylines"
+          subtitle="Explore key questions about virulence genes through interactive data narratives."
+        >
+          <div className="flex flex-col gap-8">
+            {/* Bar Chart */}
+            <StoryCard
+              title="Gene Prevalence by Host"
+              desc="Compare the prevalence (%) of major virulence genes across different host associations (Poultry, Cattle, Swine, Human, Multiple)."
             >
-              {/* Text section */}
-              <div className="text-left mb-8">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                  {v.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">{v.desc}</p>
-              </div>
-              {/* Tableau embed */}
-              <div className="relative rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-gray-50">
-                <iframe
-                  src={v.tableauSrc}
-                  title={v.title}
-                  loading="lazy"
-                  className="w-full border-none"
-                  style={{
-                    minHeight: `${v.height}px`,
-                    overflow: "visible",
-                    transform: "scale(1.02)",
-                    transformOrigin: "top center",
-                  }}
-                ></iframe>
+              <BarChart />
+            </StoryCard>
 
-                {/* Subtle fade overlay (nice for transitions) */}
-                <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-gray-50/90 to-transparent pointer-events-none"></div>
+            {/* Species Matrix */}
+            <StoryCard
+              title="Presence/Absence Matrix"
+              desc="Visual representation of which genes are present or absent in Campylobacter jejuni versus Campylobacter coli."
+            >
+              <Matrix />
+            </StoryCard>
+
+            {/* Gene Profiles */}
+            <StoryCard
+              title="Gene Profiles by Process"
+              desc="Explore virulence genes grouped by their functional processes (adhesion, invasion, mobility, toxin, etc.). Click to expand each category."
+            >
+              <GeneProfiles />
+            </StoryCard>
+
+            {/* Hidden Tableau Visuals - commented out for now */}
+            {false && visuals.map((v, i) => (
+              <div
+                key={v.title}
+                className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition p-10"
+              >
+                <div className="text-left mb-8">
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+                    {v.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">{v.desc}</p>
+                </div>
+                <div className="relative rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-gray-50">
+                  <iframe
+                    src={v.tableauSrc}
+                    title={v.title}
+                    loading="lazy"
+                    className="w-full border-none"
+                    style={{
+                      minHeight: `${v.height}px`,
+                      overflow: "visible",
+                      transform: "scale(1.02)",
+                      transformOrigin: "top center",
+                    }}
+                  ></iframe>
+                  <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-gray-50/90 to-transparent pointer-events-none"></div>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </Section>
+            ))}
+          </div>
+        </Section>
+      </DataProvider>
 
       {/* ABOUT SECTION */}
       <Section
@@ -107,8 +135,8 @@ export default function Home() {
         <p className="text-gray-700 text-lg leading-relaxed max-w-3xl mx-auto">
           Virulence Insights is a student-led data storytelling project that
           visualizes patterns in *Campylobacter jejuni* and *Campylobacter coli*
-          virulence factors. Built with Next.js, it will integrate Tableau
-          dashboards for interactive exploration.
+          virulence factors. Built with Next.js, it integrates interactive
+          visualizations for exploration.
         </p>
       </Section>
       {/* TEAM SECTION */}
