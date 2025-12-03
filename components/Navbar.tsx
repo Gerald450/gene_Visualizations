@@ -17,6 +17,7 @@ export default function Navbar() {
       name: "Visuals",
       options: [
         { label: "Storylines", href: "#visuals" },
+        { label: "Interactive Visualizations", href: "/visualizations" },
         { label: "Interactive Demo", href: "#demo" },
       ],
     },
@@ -63,15 +64,28 @@ export default function Navbar() {
                     : "opacity-0 invisible -translate-y-1"
                 }`}
               >
-                {tab.options.map((opt) => (
-                  <SmoothScrollLink
-                    key={opt.label}
-                    href={opt.href}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600"
-                  >
-                    {opt.label}
-                  </SmoothScrollLink>
-                ))}
+                {tab.options.map((opt) => {
+                  if (opt.href.startsWith('#')) {
+                    return (
+                      <SmoothScrollLink
+                        key={opt.label}
+                        href={opt.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                      >
+                        {opt.label}
+                      </SmoothScrollLink>
+                    );
+                  }
+                  return (
+                    <a
+                      key={opt.label}
+                      href={opt.href}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                    >
+                      {opt.label}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           ))}

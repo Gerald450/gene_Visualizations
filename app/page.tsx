@@ -26,10 +26,16 @@ export default function Home() {
           </p>
           <div className="flex justify-center gap-4">
             <a
-              href="#visuals"
+              href="/visualizations"
               className="px-6 py-3 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition"
             >
-              Explore Visuals
+              Interactive Visualizations
+            </a>
+            <a
+              href="#visuals"
+              className="px-6 py-3 border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100 transition"
+            >
+              View Storylines
             </a>
             <a
               href="/campylobacter.xlsx"
@@ -192,3 +198,4 @@ export default function Home() {
     </>
   );
 }
+
