@@ -111,15 +111,15 @@ export async function GET() {
       // Parse species (could be comma-separated or single)
       const species = speciesStr
         .split(/[,;]/)
-        .map(s => s.trim())
-        .filter(s => s.length > 0)
-        .map(s => s.toLowerCase().includes('jejuni') ? 'jejuni' : s.toLowerCase().includes('coli') ? 'coli' : s);
+        .map((s: string) => s.trim())
+        .filter((s: string) => s.length > 0)
+        .map((s: string) => s.toLowerCase().includes('jejuni') ? 'jejuni' : s.toLowerCase().includes('coli') ? 'coli' : s);
 
       // Parse hosts (could be comma-separated)
       const hosts = hostStr
         .split(/[,;]/)
-        .map(h => normalizeHost(h))
-        .filter(h => h.length > 0 && h !== 'Unknown');
+        .map((h: string) => normalizeHost(h))
+        .filter((h: string) => h.length > 0 && h !== 'Unknown');
 
       // Store gene data
       genes.push({
@@ -132,7 +132,7 @@ export async function GET() {
       });
 
       // Update host stats (count occurrences per host)
-      hosts.forEach(host => {
+      hosts.forEach((host: string) => {
         if (!hostStats[host]) {
           hostStats[host] = { totalIsolates: 0 };
         }
