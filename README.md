@@ -1,24 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) project for visualizing Campylobacter virulence gene data.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ installed
+- npm, yarn, pnpm, or bun package manager
+
+### Installation
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Ensure the Excel file is placed at:
+   - `/public/data/campylobacter.xlsx` (primary location)
+   - OR `/public/data/campylobacter (1).xlsx` (fallback)
+
+3. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Available Routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/` - Main dashboard with storylines
+- `/visualizations` - Interactive data visualizations (6 different charts)
+
+## Features
+
+### Interactive Visualizations
+
+The application provides 6 interactive visualizations:
+
+1. **Heatmap**: Gene prevalence across host associations
+2. **Co-Occurrence Network**: Network graph showing gene co-occurrence patterns
+3. **Species Bar Chart**: Comparison of gene counts between C. jejuni and C. coli
+4. **Function Pie Chart**: Distribution of genes by functional category
+5. **Sunburst Diagram**: Hierarchical view (Species → Host → Gene Count)
+6. **Sankey Diagram**: Flow diagram from Host categories to top genes
+
+### API Endpoint
+
+- `GET /api/data` - Returns processed JSON data from the Excel file including:
+  - `genes`: Array of gene data with names, functions, species, hosts
+  - `hostStats`: Gene counts and prevalence by host
+  - `hostTotals`: Total isolates per host
+  - `hostPrevalence`: Prevalence percentages by host and gene
+  - `speciesMatrix`: Presence/absence matrix for C. jejuni vs C. coli
+  - `cooccurrence`: Nodes and links for network visualization
+  - `sunburstHierarchy`: Hierarchy data for sunburst diagram
+  - `sankeyData`: Nodes and links for Sankey diagram
+
+## Technologies Used
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Chart.js & react-chartjs-2 (for bar charts and pie charts)
+- Plotly.js & react-plotly.js (for heatmap, sunburst, Sankey)
+- react-force-graph (for network visualization)
+- xlsx (for Excel file parsing)
+- Tailwind CSS (for styling)
+
+## Project Structure
+
+```
+my-app/
+├── app/
+│   ├── api/
+│   │   └── data/
+│   │       └── route.ts          # API endpoint for data processing
+│   ├── visualizations/
+│   │   └── page.tsx              # Visualizations page
+│   └── page.tsx                  # Main dashboard page
+├── components/
+│   ├── visualizations/
+│   │   ├── Heatmap.tsx
+│   │   ├── CooccurrenceNetwork.tsx
+│   │   ├── SpeciesBarChart.tsx
+│   │   ├── FunctionPie.tsx
+│   │   ├── Sunburst.tsx
+│   │   ├── Sankey.tsx
+│   │   └── ControlPanel.tsx
+│   └── DataProvider.tsx          # Data context provider
+└── public/
+    └── data/
+        └── campylobacter.xlsx    # Source Excel file
+```
 
 ## Learn More
 
