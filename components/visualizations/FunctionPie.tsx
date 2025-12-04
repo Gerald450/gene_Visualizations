@@ -89,7 +89,7 @@ export default function FunctionPie() {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: (isMobile ? 'bottom' : 'right') as const,
+        position: (isMobile ? 'bottom' : 'right') as 'bottom' | 'right',
         labels: {
           font: {
             size: isMobile ? 10 : 12,
