@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Section from "@/components/Section";
 import { visuals } from "./data/visuals";
 import { DataProvider } from "@/components/DataProvider";
@@ -18,6 +18,19 @@ import Sankey from "@/components/visualizations/Sankey";
 export default function Home() {
   const [topN, setTopN] = useState(20);
   const [showPercent, setShowPercent] = useState(false);
+
+  // Handle hash links when navigating from other pages
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, []);
 
   return (
     <>
