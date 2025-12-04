@@ -110,7 +110,7 @@ export default function Home() {
 
             {/* Species Matrix */}
             <StoryCard
-              title="Presence/Absence Matrix"
+              title="Expressed/Not Expressed Matrix"
               desc="Visual representation of which genes are present or absent in Campylobacter jejuni versus Campylobacter coli."
             >
               <Matrix />
@@ -118,7 +118,7 @@ export default function Home() {
 
             {/* Gene Profiles */}
             <StoryCard
-              title="Gene Profiles by Process"
+              title="Gene Profiles by function"
               desc="Explore virulence genes grouped by their functional processes (adhesion, invasion, mobility, toxin, etc.). Click to expand each category."
             >
               <GeneProfiles />
