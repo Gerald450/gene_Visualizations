@@ -2,7 +2,7 @@
 
 import { useData } from '../DataProvider';
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 
 // Use react-force-graph-2d for network visualization
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { 
@@ -20,6 +20,7 @@ interface CooccurrenceNetworkProps {
  */
 export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetworkProps) {
   const { data, loading, error } = useData();
+  const fgRef = useRef<any>(null);
 
   const graphData = useMemo(() => {
     if (!data || !data.cooccurrence) {
@@ -37,8 +38,8 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
         id: node.id,
         name: node.id,
         value: node.count,
-        // Size proportional to count
-        size: Math.sqrt(node.count / maxNodeCount) * 10 + 3,
+        // Size proportional to count - made larger
+        size: Math.sqrt(node.count / maxNodeCount) * 15 + 5,
       })),
       links: links.map(link => ({
         source: link.source,
@@ -49,6 +50,19 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
       })),
     };
   }, [data]);
+
+  // Set initial zoom after component mounts - must be called before conditional returns
+  useEffect(() => {
+    if (fgRef.current && graphData.nodes.length > 0) {
+      // Zoom in after a short delay to allow graph to initialize
+      const timer = setTimeout(() => {
+        fgRef.current?.zoom(1.5, 400); // zoom level 1.5 over 400ms
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+    return undefined;
+  }, [graphData.nodes.length]);
 
   if (loading) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading network graph...</div>;
@@ -63,12 +77,31 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
   }
 
   return (
-    <div className="w-full border border-gray-200 rounded-lg overflow-hidden">
-      <ForceGraph2D
+    <div className="w-full">
+      {/* Explanation Box */}
+      <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+        <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">How to Read This Network:</h4>
+        <ul className="text-sm text-blue-800 dark:text-blue-400 space-y-1 list-disc list-inside">
+          <li><strong>Circles (Nodes)</strong> = Genes. Larger circles = more common genes</li>
+          <li><strong>Lines (Links)</strong> = Co-occurrence. Thicker lines = genes found together more often</li>
+          <li><strong>Colors</strong> = Gene function: Red (Toxin), Blue (Adhesion), Green (Invasion), Orange (Motility), Gray (Other)</li>
+          <li><strong>Interactions</strong>: Hover to see gene details, click to explore, drag nodes to rearrange</li>
+        </ul>
+        <p className="text-xs text-blue-700 dark:text-blue-500 mt-2 italic">
+          Co-occurrence means genes that appear in the same bacterial isolate (same host + species combination).
+        </p>
+      </div>
+      
+      <div className="w-full border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+        <ForceGraph2D
+        ref={fgRef}
         graphData={graphData}
         nodeLabel={(node: any) => {
           const geneData = data.genes.find(g => g.geneName === node.id);
-          return `${node.id}<br>Occurrences: ${node.value}<br>Function: ${geneData?.function || 'Unknown'}`;
+          const connectedGenes = graphData.links
+            .filter((l: any) => l.source === node.id || l.target === node.id)
+            .length;
+          return `<b>${node.id}</b><br>Total Occurrences: ${node.value}<br>Function: ${geneData?.function || 'Unknown'}<br>Connected to ${connectedGenes} other gene(s)`;
         }}
         nodeColor={(node: any) => {
           // Color based on function category if available
@@ -82,6 +115,7 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
           return '#6b7280';
         }}
         linkWidth={(link: any) => link.width}
+        linkLabel={(link: any) => `Co-occur ${link.value} time(s)`}
         linkDirectionalArrowLength={3}
         linkDirectionalArrowRelPos={1}
         onNodeClick={(node: any) => {
@@ -89,9 +123,12 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
             onNodeClick(node.id);
           }
         }}
-        width={800}
-        height={600}
-      />
+        width={1000}
+        height={700}
+        minZoom={0.3}
+        maxZoom={4}
+        />
+      </div>
     </div>
   );
 }

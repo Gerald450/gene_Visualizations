@@ -240,40 +240,47 @@ export async function GET() {
 
     // Compute co-occurrence (gene pairs that appear together in isolates)
     const cooccurrenceCounts: Record<string, Record<string, number>> = {};
-    const minOccurrenceThreshold = 3; // Exclude genes appearing in < 3 isolates
+    const minOccurrenceThreshold = 1; // Lower threshold to include more genes (changed from 3)
     
     // Filter genes by threshold
     const filteredGenes = Object.keys(geneCounts).filter(gene => geneCounts[gene] >= minOccurrenceThreshold);
     
+    // If no genes pass threshold, use all genes
+    const genesToUse = filteredGenes.length > 0 ? filteredGenes : Object.keys(geneCounts);
+    
     // Initialize co-occurrence counts
-    filteredGenes.forEach(gene => {
+    genesToUse.forEach(gene => {
       cooccurrenceCounts[gene] = {};
     });
 
-    // Count co-occurrences
+    // Count co-occurrences from isolateMap
+    // Each isolate (host+species combination) represents a set of genes that co-occur
     Object.values(isolateMap).forEach(geneSet => {
-      const geneArray = Array.from(geneSet).filter(g => filteredGenes.includes(g));
-      for (let i = 0; i < geneArray.length; i++) {
-        for (let j = i + 1; j < geneArray.length; j++) {
-          const gene1 = geneArray[i];
-          const gene2 = geneArray[j];
-          cooccurrenceCounts[gene1][gene2] = (cooccurrenceCounts[gene1][gene2] || 0) + 1;
-          cooccurrenceCounts[gene2][gene1] = (cooccurrenceCounts[gene2][gene1] || 0) + 1;
+      const geneArray = Array.from(geneSet).filter(g => genesToUse.includes(g));
+      // Only process if there are at least 2 genes (needed for co-occurrence)
+      if (geneArray.length >= 2) {
+        for (let i = 0; i < geneArray.length; i++) {
+          for (let j = i + 1; j < geneArray.length; j++) {
+            const gene1 = geneArray[i];
+            const gene2 = geneArray[j];
+            cooccurrenceCounts[gene1][gene2] = (cooccurrenceCounts[gene1][gene2] || 0) + 1;
+            cooccurrenceCounts[gene2][gene1] = (cooccurrenceCounts[gene2][gene1] || 0) + 1;
+          }
         }
       }
     });
 
     // Build co-occurrence nodes and links
-    const cooccurrenceNodes: CooccurrenceNode[] = filteredGenes.map(gene => ({
+    const cooccurrenceNodes: CooccurrenceNode[] = genesToUse.map(gene => ({
       id: gene,
       count: geneCounts[gene],
     }));
 
     const cooccurrenceLinks: CooccurrenceLink[] = [];
     const processedPairs = new Set<string>();
-    filteredGenes.forEach(gene1 => {
+    genesToUse.forEach(gene1 => {
       Object.keys(cooccurrenceCounts[gene1] || {}).forEach(gene2 => {
-        if (filteredGenes.includes(gene2) && gene1 < gene2) {
+        if (genesToUse.includes(gene2) && gene1 < gene2) {
           const pairKey = `${gene1}::${gene2}`;
           if (!processedPairs.has(pairKey)) {
             processedPairs.add(pairKey);
