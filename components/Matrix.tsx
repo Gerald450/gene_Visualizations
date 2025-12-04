@@ -21,42 +21,44 @@ export default function Matrix() {
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-600">
-        <thead>
-          <tr className="bg-gray-100 dark:bg-gray-800">
-            <th className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold text-gray-900 dark:text-gray-100">Gene</th>
-            <th className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold text-gray-900 dark:text-gray-100">C. jejuni</th>
-            <th className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold text-gray-900 dark:text-gray-100">C. coli</th>
-          </tr>
-        </thead>
-        <tbody>
-          {genes.map((gene, index) => {
-            const presence = matrix[gene];
-            return (
-              <tr key={gene} className={index % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'}>
-                <td className="border border-gray-300 dark:border-gray-600 px-4 py-2 font-medium text-gray-900 dark:text-gray-100">{gene}</td>
-                <td className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
-                  <span
-                    className={`inline-block w-6 h-6 rounded ${
-                      presence.jejuni ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
-                    }`}
-                    title={presence.jejuni ? 'Present' : 'Absent'}
-                  />
-                </td>
-                <td className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
-                  <span
-                    className={`inline-block w-6 h-6 rounded ${
-                      presence.coli ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
-                    }`}
-                    title={presence.coli ? 'Present' : 'Absent'}
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+    <div className="overflow-x-auto -mx-4 sm:mx-0">
+      <div className="inline-block min-w-full align-middle">
+        <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-600 text-sm sm:text-base">
+          <thead>
+            <tr className="bg-gray-100 dark:bg-gray-800">
+              <th className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-left font-semibold text-gray-900 dark:text-gray-100 text-xs sm:text-sm">Gene</th>
+              <th className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center font-semibold text-gray-900 dark:text-gray-100 text-xs sm:text-sm">C. jejuni</th>
+              <th className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center font-semibold text-gray-900 dark:text-gray-100 text-xs sm:text-sm">C. coli</th>
+            </tr>
+          </thead>
+          <tbody>
+            {genes.map((gene, index) => {
+              const presence = matrix[gene];
+              return (
+                <tr key={gene} className={index % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'}>
+                  <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 font-medium text-gray-900 dark:text-gray-100 text-xs sm:text-sm">{gene}</td>
+                  <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center">
+                    <span
+                      className={`inline-block w-5 h-5 sm:w-6 sm:h-6 rounded ${
+                        presence.jejuni ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
+                      }`}
+                      title={presence.jejuni ? 'Present' : 'Absent'}
+                    />
+                  </td>
+                  <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center">
+                    <span
+                      className={`inline-block w-5 h-5 sm:w-6 sm:h-6 rounded ${
+                        presence.coli ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
+                      }`}
+                      title={presence.coli ? 'Present' : 'Absent'}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

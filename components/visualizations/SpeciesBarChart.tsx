@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { useState, useEffect } from 'react';
 
 ChartJS.register(
   CategoryScale,
@@ -33,6 +34,16 @@ interface SpeciesBarChartProps {
  */
 export default function SpeciesBarChart({ topN = 20, showPercent = false }: SpeciesBarChartProps) {
   const { data, loading, error, getTopGenes } = useData();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   if (loading) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading chart...</div>;
@@ -103,12 +114,21 @@ export default function SpeciesBarChart({ topN = 20, showPercent = false }: Spec
     plugins: {
       legend: {
         position: 'top' as const,
+        labels: {
+          font: {
+            size: isMobile ? 11 : 12,
+          },
+          boxWidth: isMobile ? 12 : 12,
+        },
       },
       title: {
         display: true,
         text: showPercent 
           ? 'Gene Distribution by Species (%)' 
           : 'Gene Counts by Species',
+        font: {
+          size: isMobile ? 14 : 16,
+        },
       },
       tooltip: {
         callbacks: {
@@ -124,23 +144,37 @@ export default function SpeciesBarChart({ topN = 20, showPercent = false }: Spec
         title: {
           display: true,
           text: showPercent ? 'Percentage (%)' : 'Count',
+          font: {
+            size: isMobile ? 12 : 14,
+          },
+        },
+        ticks: {
+          font: {
+            size: isMobile ? 10 : 12,
+          },
         },
       },
       x: {
         title: {
           display: true,
           text: 'Gene',
+          font: {
+            size: isMobile ? 12 : 14,
+          },
         },
         ticks: {
-          maxRotation: 45,
-          minRotation: 45,
+          maxRotation: isMobile ? 90 : 45,
+          minRotation: isMobile ? 45 : 45,
+          font: {
+            size: isMobile ? 9 : 12,
+          },
         },
       },
     },
   };
 
   return (
-    <div className="w-full" style={{ height: '500px' }}>
+    <div className="w-full" style={{ height: isMobile ? '450px' : '500px' }}>
       <Bar data={chartData} options={options} />
     </div>
   );

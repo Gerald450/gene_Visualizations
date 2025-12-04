@@ -2,7 +2,7 @@
 
 import { useData } from '../DataProvider';
 import dynamic from 'next/dynamic';
-import { useMemo, useRef, useEffect } from 'react';
+import { useMemo, useRef, useEffect, useState } from 'react';
 
 // Use react-force-graph-2d for network visualization
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { 
@@ -21,6 +21,7 @@ interface CooccurrenceNetworkProps {
 export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetworkProps) {
   const { data, loading, error } = useData();
   const fgRef = useRef<any>(null);
+  const [dimensions, setDimensions] = useState({ width: 1000, height: 700 });
 
   const graphData = useMemo(() => {
     if (!data || !data.cooccurrence) {
@@ -51,12 +52,33 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
     };
   }, [data]);
 
+  // Set responsive dimensions
+  useEffect(() => {
+    const updateDimensions = () => {
+      const isMobile = window.innerWidth < 640;
+      const isTablet = window.innerWidth < 1024;
+      
+      if (isMobile) {
+        setDimensions({ width: window.innerWidth - 32, height: 500 });
+      } else if (isTablet) {
+        setDimensions({ width: window.innerWidth - 64, height: 600 });
+      } else {
+        setDimensions({ width: 1000, height: 700 });
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
   // Set initial zoom after component mounts - must be called before conditional returns
   useEffect(() => {
     if (fgRef.current && graphData.nodes.length > 0) {
       // Zoom in after a short delay to allow graph to initialize
       const timer = setTimeout(() => {
-        fgRef.current?.zoom(1.5, 400); // zoom level 1.5 over 400ms
+        const isMobile = window.innerWidth < 640;
+        fgRef.current?.zoom(isMobile ? 1.2 : 1.5, 400); // zoom level adjusted for mobile
       }, 500);
       
       return () => clearTimeout(timer);
@@ -79,9 +101,9 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
   return (
     <div className="w-full">
       {/* Explanation Box */}
-      <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-        <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">How to Read This Network:</h4>
-        <ul className="text-sm text-blue-800 dark:text-blue-400 space-y-1 list-disc list-inside">
+      <div className="mb-4 p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+        <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-2 text-sm sm:text-base">How to Read This Network:</h4>
+        <ul className="text-xs sm:text-sm text-blue-800 dark:text-blue-400 space-y-1 list-disc list-inside">
           <li><strong>Circles (Nodes)</strong> = Genes. Larger circles = more common genes</li>
           <li><strong>Lines (Links)</strong> = Co-occurrence. Thicker lines = genes found together more often</li>
           <li><strong>Colors</strong> = Gene function: Red (Toxin), Blue (Adhesion), Green (Invasion), Orange (Motility), Gray (Other)</li>
@@ -123,8 +145,8 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
             onNodeClick(node.id);
           }
         }}
-        width={1000}
-        height={700}
+        width={dimensions.width}
+        height={dimensions.height}
         minZoom={0.3}
         maxZoom={4}
         />

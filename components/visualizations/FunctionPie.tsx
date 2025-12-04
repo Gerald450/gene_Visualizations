@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { useState, useEffect } from 'react';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -17,6 +18,16 @@ ChartJS.register(ArcElement, Tooltip, Legend);
  */
 export default function FunctionPie() {
   const { data, loading, error } = useData();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   if (loading) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading pie chart...</div>;
@@ -78,11 +89,21 @@ export default function FunctionPie() {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'right' as const,
+        position: (isMobile ? 'bottom' : 'right') as const,
+        labels: {
+          font: {
+            size: isMobile ? 10 : 12,
+          },
+          boxWidth: isMobile ? 12 : 14,
+          padding: isMobile ? 8 : 12,
+        },
       },
       title: {
         display: true,
         text: 'Gene Function Distribution',
+        font: {
+          size: isMobile ? 14 : 16,
+        },
       },
       tooltip: {
         callbacks: {
@@ -98,7 +119,7 @@ export default function FunctionPie() {
   };
 
   return (
-    <div className="w-full" style={{ height: '400px' }}>
+    <div className="w-full" style={{ height: isMobile ? '450px' : '400px' }}>
       <Pie data={chartData} options={options} />
     </div>
   );

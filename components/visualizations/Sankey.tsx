@@ -2,6 +2,7 @@
 
 import { useData } from '../DataProvider';
 import dynamic from 'next/dynamic';
+import { useState, useEffect } from 'react';
 
 // Use Plotly for Sankey diagram
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
@@ -17,6 +18,18 @@ interface SankeyProps {
  */
 export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
   const { data, loading, error } = useData();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 640);
+      setIsTablet(window.innerWidth < 1024 && window.innerWidth >= 640);
+    };
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   if (loading) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading Sankey diagram...</div>;
@@ -65,10 +78,18 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
   ];
 
   const layout: any = {
-    title: { text: `Host → Gene Flow (Top ${topK} Genes)` },
-    font: { size: 12 },
-    height: 600,
-    margin: { l: 50, r: 50, t: 50, b: 50 },
+    title: { 
+      text: `Host → Gene Flow (Top ${topK} Genes)`,
+      font: { size: isMobile ? 12 : isTablet ? 13 : 14 },
+    },
+    font: { size: isMobile ? 10 : isTablet ? 11 : 12 },
+    height: isMobile ? 450 : isTablet ? 550 : 600,
+    margin: { 
+      l: isMobile ? 30 : 50, 
+      r: isMobile ? 20 : 50, 
+      t: isMobile ? 60 : 50, 
+      b: isMobile ? 40 : 50 
+    },
   };
 
   const config: any = {
