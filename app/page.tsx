@@ -35,36 +35,36 @@ export default function Home() {
   return (
     <>
       {/* HERO SECTION */}
-      <section id="hero" className="text-center py-40 bg-gray-50 dark:bg-gray-900 scroll-mt-20">
+      <section id="hero" className="text-center py-20 md:py-40 bg-gray-50 dark:bg-gray-900 scroll-mt-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-gray-100">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 md:mb-6 text-gray-900 dark:text-gray-100">
             Data. Genes. Insights.
             <br />
             <span className="text-blue-600 dark:text-blue-400">
               All in one interactive dashboard.
             </span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto mb-10">
+          <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-6 md:mb-10">
             Explore patterns in <em>Campylobacter jejuni</em> and{" "}
             <em>Campylobacter coli </em>
             through clear, data-driven storytelling.
           </p>
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 items-center">
             <a
               href="/visualizations"
-              className="px-6 py-3 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition"
+              className="px-6 py-3 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition text-sm sm:text-base w-full sm:w-auto"
             >
               Interactive Visualizations
             </a>
             <a
               href="#visuals"
-              className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition text-sm sm:text-base w-full sm:w-auto"
             >
               View Storylines
             </a>
             <a
               href="/campylobacter.xlsx"
-              className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition text-sm sm:text-base w-full sm:w-auto"
             >
               Download Excel File
             </a>
@@ -78,12 +78,12 @@ export default function Home() {
         title="What You Can Do"
         subtitle="Our platform helps you analyze and visualize virulence data intuitively."
       >
-        <div className="flex flex-wrap justify-center gap-6">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6">
           {["Compare", "Analyze", "Visualize", "Discover", "Collaborate"].map(
             (f) => (
               <div
                 key={f}
-                className="px-6 py-3 bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 rounded-full text-gray-700 dark:text-gray-300 font-medium"
+                className="px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 rounded-full text-gray-700 dark:text-gray-300 font-medium text-sm sm:text-base"
               >
                 {f}
               </div>
@@ -99,7 +99,7 @@ export default function Home() {
           title="Visual Storylines"
           subtitle="Explore key questions about virulence genes through interactive data narratives."
         >
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6 sm:gap-8">
             {/* Bar Chart */}
             <StoryCard
               title="Gene Prevalence by Host"
@@ -145,7 +145,7 @@ export default function Home() {
               title="Species-Specific Gene Distribution"
               desc={`Comparison of gene counts/percentages between C. jejuni and C. coli for the top ${topN} genes. Shows absolute counts or percentages for each species.`}
             >
-              <div className="mb-4 flex gap-4 items-center">
+              <div className="mb-4 flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center">
                 <label className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
                   <span>Top N:</span>
                   <select
@@ -235,7 +235,7 @@ export default function Home() {
         title="About This Project"
         subtitle="Turning complex virulence gene data into simple insights."
       >
-        <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed max-w-3xl mx-auto">
+        <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto px-4">
           Virulence Insights is a student-led data storytelling project that
           visualizes patterns in *Campylobacter jejuni* and *Campylobacter coli*
           virulence factors. Built with Next.js, it integrates interactive
@@ -244,23 +244,23 @@ export default function Home() {
       </Section>
       {/* TEAM SECTION */}
       <Section id="team" title="Our Team">
-        <p className="text-gray-700 dark:text-gray-300 mb-8">
+        <p className="text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 text-sm sm:text-base px-4">
           Developed by a group of research enthusiasts exploring data-driven
           biology.
         </p>
 
-        <div className="flex flex-col md:flex-row justify-center items-center gap-10">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 md:gap-10 px-4">
           {/* Member 1 */}
           <div className="flex flex-col items-center text-center">
             <img
               src="images/Headshots/Gerald.jpeg"
               alt="Team member 1"
-              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+              className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
             />
-            <h4 className="mt-4 text-lg font-semibold text-gray-900">
+            <h4 className="mt-3 sm:mt-4 text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">
               Gerald Shimo
             </h4>
-            <p className="text-gray-600 text-sm">Full-Stack Developer</p>
+            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Full-Stack Developer</p>
           </div>
 
           {/* Member 2 */}
@@ -268,12 +268,12 @@ export default function Home() {
             <img
               src="images/Headshots/Hawu.jpeg"
               alt="Team member 2"
-              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+              className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
             />
-            <h4 className="mt-4 text-lg font-semibold text-gray-900">
+            <h4 className="mt-3 sm:mt-4 text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">
               Hawulethu Ndlovu
             </h4>
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
               Product Manager and Data Analyst
             </p>
           </div>
@@ -283,12 +283,12 @@ export default function Home() {
             <img
               src="images/Headshots/Praise.jpeg"
               alt="Team member 3"
-              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+              className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
             />
-            <h4 className="mt-4 text-lg font-semibold text-gray-900">
+            <h4 className="mt-3 sm:mt-4 text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">
               Praise Fabiyi
             </h4>
-            <p className="text-gray-600 text-sm">BioInformatics Engineer</p>
+            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">BioInformatics Engineer</p>
           </div>
         </div>
       </Section>

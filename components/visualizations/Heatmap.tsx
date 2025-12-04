@@ -2,6 +2,7 @@
 
 import { useData } from '../DataProvider';
 import dynamic from 'next/dynamic';
+import { useState, useEffect } from 'react';
 
 // Use Plotly for heatmap
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
@@ -17,6 +18,18 @@ interface HeatmapProps {
  */
 export default function Heatmap({ onGeneClick }: HeatmapProps) {
   const { data, loading, error } = useData();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 640);
+      setIsTablet(window.innerWidth < 1024 && window.innerWidth >= 640);
+    };
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   if (loading) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading heatmap...</div>;
@@ -55,11 +68,33 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
   ];
 
   const layout: any = {
-    title: { text: 'Gene Prevalence Across Hosts (%)' },
-    xaxis: { title: 'Host Association' },
-    yaxis: { title: 'Gene', automargin: true },
-    height: Math.max(400, sortedGenes.length * 20),
-    margin: { l: 150, r: 50, t: 50, b: 100 },
+    title: { 
+      text: 'Gene Prevalence Across Hosts (%)',
+      font: { size: isMobile ? 12 : isTablet ? 14 : 16 },
+    },
+    xaxis: { 
+      title: 'Host Association',
+      titlefont: { size: isMobile ? 11 : 12 },
+      tickfont: { size: isMobile ? 9 : 10 },
+    },
+    yaxis: { 
+      title: 'Gene', 
+      automargin: true,
+      titlefont: { size: isMobile ? 11 : 12 },
+      tickfont: { size: isMobile ? 8 : 9 },
+    },
+    height: isMobile 
+      ? Math.max(400, sortedGenes.length * 15)
+      : isTablet
+      ? Math.max(450, sortedGenes.length * 18)
+      : Math.max(400, sortedGenes.length * 20),
+    margin: { 
+      l: isMobile ? 80 : isTablet ? 100 : 150, 
+      r: isMobile ? 20 : 50, 
+      t: isMobile ? 60 : 50, 
+      b: isMobile ? 80 : 100 
+    },
+    font: { size: isMobile ? 10 : 12 },
   };
 
   const config: any = {

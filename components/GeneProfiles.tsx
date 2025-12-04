@@ -37,17 +37,17 @@ export default function GeneProfiles() {
             }}
             className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
           >
-            <summary className="px-4 py-3 bg-gray-100 dark:bg-gray-800 cursor-pointer font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition text-gray-900 dark:text-gray-100">
+            <summary className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 dark:bg-gray-800 cursor-pointer font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition text-gray-900 dark:text-gray-100 text-sm sm:text-base">
               {processName.charAt(0).toUpperCase() + processName.slice(1)} ({genes.length} genes)
             </summary>
-            <div className="px-4 py-3 bg-white dark:bg-gray-900">
-              <div className="flex flex-wrap gap-2">
+            <div className="px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-gray-900">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {genes.map(gene => {
                   const geneData = data.genes.find(g => g.geneName === gene);
                   return (
                     <div
                       key={gene}
-                      className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded text-sm"
+                      className="px-2 sm:px-3 py-1 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded text-xs sm:text-sm"
                       title={geneData?.function || ''}
                     >
                       <span className="font-medium text-gray-900 dark:text-gray-100">{gene}</span>

@@ -2,6 +2,7 @@
 
 import { useData } from '../DataProvider';
 import dynamic from 'next/dynamic';
+import { useState, useEffect } from 'react';
 
 // Use Plotly for sunburst
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
@@ -15,6 +16,18 @@ interface SunburstProps {
  */
 export default function Sunburst({ onSectorClick }: SunburstProps) {
   const { data, loading, error } = useData();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 640);
+      setIsTablet(window.innerWidth < 1024 && window.innerWidth >= 640);
+    };
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   if (loading) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading sunburst...</div>;
@@ -59,8 +72,16 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
   ];
 
   const layout: any = {
-    title: { text: 'Species → Host → Gene Count Hierarchy' },
-    margin: { l: 0, r: 0, t: 50, b: 0 },
+    title: { 
+      text: 'Species → Host → Gene Count Hierarchy',
+      font: { size: isMobile ? 12 : isTablet ? 14 : 16 },
+    },
+    margin: { 
+      l: 0, 
+      r: 0, 
+      t: isMobile ? 60 : 50, 
+      b: 0 
+    },
     sunburstcolorway: ['#636efa', '#ef553b', '#00cc96', '#ab63fa', '#ffa15a', '#19d3f3'],
     extendsunburstcolors: true,
   };
@@ -76,7 +97,7 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
         data={plotData}
         layout={layout}
         config={config}
-        style={{ width: '100%', height: '600px' }}
+        style={{ width: '100%', height: isMobile ? '450px' : isTablet ? '550px' : '600px' }}
         onClick={(event: any) => {
           if (onSectorClick && event.points && event.points[0]) {
             const path = event.points[0].id.split('|');
