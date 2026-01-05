@@ -147,7 +147,7 @@ export default function BarChart() {
       },
     },
   };
-
+//check
   return (
     <div className="w-full" style={{ height: isMobile ? '350px' : '400px' }}>
       <Bar data={chartData} options={options} />
