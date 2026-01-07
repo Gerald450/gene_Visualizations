@@ -299,6 +299,19 @@ export default function Home() {
             </h4>
             <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">BioInformatics Engineer</p>
           </div>
+
+          {/* Member 4 */}
+          <div className="flex flex-col items-center text-center">
+            <img
+              src="images/Headshots/raj-214x300.jpg"
+              alt="Dr. Raj"
+              className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full shadow-md border-2 border-gray-200"
+            />
+            <h4 className="mt-3 sm:mt-4 text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">
+              Dr. Raj
+            </h4>
+            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Faculty Advisor</p>
+          </div>
         </div>
       </Section>
     </>
