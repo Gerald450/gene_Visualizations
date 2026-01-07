@@ -64,6 +64,11 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
       colorscale: 'Viridis',
       hoverongaps: false,
       hovertemplate: '<b>%{y}</b><br>Host: %{x}<br>Prevalence: %{z}%<extra></extra>',
+      colorbar: {
+        title: 'Prevalence (%)',
+        titlefont: { size: isMobile ? 10 : 12 },
+        tickfont: { size: isMobile ? 9 : 10 },
+      },
     },
   ];
 
@@ -105,6 +110,17 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
 
   return (
     <div className="w-full">
+      {/* How to Read This Heatmap */}
+      <div className="mb-4 p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+        <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-2 text-sm sm:text-base">How to Read This Heatmap:</h4>
+        <ul className="text-xs sm:text-sm text-blue-800 dark:text-blue-400 space-y-1 list-disc list-inside">
+          <li><strong>Rows</strong> = Genes (sorted alphabetically)</li>
+          <li><strong>Columns</strong> = Host associations (Poultry, Cattle, Swine, Human, etc.)</li>
+          <li><strong>Brighter colors</strong> = Higher prevalence (gene found in more isolates)</li>
+          <li><strong>Darker colors</strong> = Lower or absent prevalence (gene found in fewer or no isolates)</li>
+        </ul>
+      </div>
+
       <Plot
         data={plotData}
         layout={layout}
@@ -118,6 +134,13 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
           }
         }}
       />
+
+      {/* Interpretation Example */}
+      <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+        <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+          <strong>Interpretation:</strong> Genes with consistently bright colors across all hosts are conserved (core virulence genes), while genes with bright colors in only some hosts are host-associated. For example, a gene with 80% prevalence in Poultry but 5% in Cattle suggests it&apos;s important for poultry infection but not for cattle.
+        </p>
+      </div>
     </div>
   );
 }
