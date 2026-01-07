@@ -109,9 +109,6 @@ export default function VariabilityPlot() {
     const hostCategories = ['Poultry', 'Cattle', 'Swine', 'Human', 'Multiple'];
     const availableHosts = hostCategories.filter(host => data.hostPrevalence[host]);
 
-    // Species categories (derived from speciesMatrix)
-    const speciesCategories = ['jejuni', 'coli'];
-
     // Compute species prevalence from speciesMatrix (presence/absence as 0 or 100)
     // For a more accurate species prevalence, we'd need the actual counts
     // Here we'll compute it from the genes array
@@ -154,8 +151,8 @@ export default function VariabilityPlot() {
     const results: GeneVariability[] = [];
 
     allGenes.forEach(geneName => {
-      let values: number[] = [];
-      let labeledValues: Array<{ label: string; value: number }> = [];
+      const values: number[] = [];
+      const labeledValues: Array<{ label: string; value: number }> = [];
 
       if (mode === 'hosts' || mode === 'combined') {
         availableHosts.forEach(host => {
@@ -173,10 +170,6 @@ export default function VariabilityPlot() {
         });
       }
 
-      // Filter out zero values for more meaningful statistics
-      // (genes not present in a host/species shouldn't skew the mean)
-      const nonZeroValues = values.filter(v => v > 0);
-      
       // Use all values if we want to include zeros in variability calculation
       const valuesForStats = values;
 
@@ -245,7 +238,7 @@ export default function VariabilityPlot() {
   const categories = [...new Set(geneVariability.map(g => g.category))];
   
   // Create traces for each category
-  const traces: any[] = categories.map(category => {
+  const traces: Array<Record<string, unknown>> = categories.map(category => {
     const categoryGenes = geneVariability.filter(g => g.category === category);
     
     // Determine error bars based on errorMetric
@@ -302,7 +295,7 @@ export default function VariabilityPlot() {
   const lowThreshold = quantile(sortedVariability, 0.25); // 25th percentile
   const highThreshold = quantile(sortedVariability, 0.75); // 75th percentile
 
-  const layout: any = {
+  const layout: Record<string, unknown> = {
     title: {
       text: 'Gene Prevalence Variability (Stability)',
       font: { size: isMobile ? 14 : isTablet ? 16 : 18 },
@@ -382,10 +375,10 @@ export default function VariabilityPlot() {
     ],
   };
 
-  const config: any = {
+  const config: Record<string, unknown> = {
     responsive: true,
     displayModeBar: true,
-    modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d'] as any,
+    modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d'],
   };
 
   return (

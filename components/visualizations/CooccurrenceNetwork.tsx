@@ -3,6 +3,7 @@
 import { useData } from '../DataProvider';
 import dynamic from 'next/dynamic';
 import { useMemo, useRef, useEffect, useState } from 'react';
+import type { ForceGraphMethods } from 'react-force-graph-2d';
 
 // Use react-force-graph-2d for network visualization
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { 
@@ -20,7 +21,7 @@ interface CooccurrenceNetworkProps {
  */
 export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetworkProps) {
   const { data, loading, error } = useData();
-  const fgRef = useRef<any>(null);
+  const fgRef = useRef<ForceGraphMethods | undefined>(undefined);
   const [dimensions, setDimensions] = useState({ width: 1000, height: 700 });
 
   const graphData = useMemo(() => {
@@ -78,7 +79,7 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
       // Zoom in after a short delay to allow graph to initialize
       const timer = setTimeout(() => {
         const isMobile = window.innerWidth < 640;
-        fgRef.current?.zoom(isMobile ? 1.2 : 1.5, 400); // zoom level adjusted for mobile
+        fgRef.current?.zoom?.(isMobile ? 1.2 : 1.5, 400); // zoom level adjusted for mobile
       }, 500);
       
       return () => clearTimeout(timer);
@@ -118,16 +119,18 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
         <ForceGraph2D
         ref={fgRef}
         graphData={graphData}
-        nodeLabel={(node: any) => {
-          const geneData = data.genes.find(g => g.geneName === node.id);
+        nodeLabel={(node: Record<string, unknown>) => {
+          const nodeId = node.id as string;
+          const geneData = data.genes.find(g => g.geneName === nodeId);
           const connectedGenes = graphData.links
-            .filter((l: any) => l.source === node.id || l.target === node.id)
+            .filter((l: Record<string, unknown>) => (l.source as string) === nodeId || (l.target as string) === nodeId)
             .length;
-          return `<b>${node.id}</b><br>Total Occurrences: ${node.value}<br>Function: ${geneData?.function || 'Unknown'}<br>Connected to ${connectedGenes} other gene(s)`;
+          return `<b>${nodeId}</b><br>Total Occurrences: ${node.value as number}<br>Function: ${geneData?.function || 'Unknown'}<br>Connected to ${connectedGenes} other gene(s)`;
         }}
-        nodeColor={(node: any) => {
+        nodeColor={(node: Record<string, unknown>) => {
           // Color based on function category if available
-          const geneData = data.genes.find(g => g.geneName === node.id);
+          const nodeId = node.id as string;
+          const geneData = data.genes.find(g => g.geneName === nodeId);
           if (!geneData) return '#888';
           const func = geneData.function.toLowerCase();
           if (func.includes('toxin')) return '#ef4444';
@@ -136,13 +139,13 @@ export default function CooccurrenceNetwork({ onNodeClick }: CooccurrenceNetwork
           if (func.includes('motility') || func.includes('mobility')) return '#f59e0b';
           return '#6b7280';
         }}
-        linkWidth={(link: any) => link.width}
-        linkLabel={(link: any) => `Co-occur ${link.value} time(s)`}
+        linkWidth={(link: Record<string, unknown>) => (link.width as number) || 1}
+        linkLabel={(link: Record<string, unknown>) => `Co-occur ${link.value as number} time(s)`}
         linkDirectionalArrowLength={3}
         linkDirectionalArrowRelPos={1}
-        onNodeClick={(node: any) => {
+        onNodeClick={(node: Record<string, unknown>) => {
           if (onNodeClick) {
-            onNodeClick(node.id);
+            onNodeClick(node.id as string);
           }
         }}
         width={dimensions.width}

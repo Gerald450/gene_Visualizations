@@ -55,7 +55,7 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
     availableHosts.map(host => data.hostPrevalence[host]?.[gene] || 0)
   );
 
-  const plotData: any[] = [
+  const plotData: Array<Record<string, unknown>> = [
     {
       z,
       x: availableHosts,
@@ -67,7 +67,7 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
     },
   ];
 
-  const layout: any = {
+  const layout: Record<string, unknown> = {
     title: { 
       text: 'Gene Prevalence Across Hosts (%)',
       font: { size: isMobile ? 12 : isTablet ? 14 : 16 },
@@ -97,10 +97,10 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
     font: { size: isMobile ? 10 : 12 },
   };
 
-  const config: any = {
+  const config: Record<string, unknown> = {
     responsive: true,
     displayModeBar: true,
-    modeBarButtonsToRemove: ['pan2d', 'lasso2d'] as any,
+    modeBarButtonsToRemove: ['pan2d', 'lasso2d'],
   };
 
   return (
@@ -110,9 +110,10 @@ export default function Heatmap({ onGeneClick }: HeatmapProps) {
         layout={layout}
         config={config}
         style={{ width: '100%' }}
-        onClick={(event: any) => {
-          if (onGeneClick && event.points && event.points[0]) {
-            const geneIndex = event.points[0].y;
+        onClick={(event: Record<string, unknown>) => {
+          if (onGeneClick && event.points && Array.isArray(event.points) && event.points[0]) {
+            const point = event.points[0] as Record<string, unknown>;
+            const geneIndex = point.y as number;
             onGeneClick(sortedGenes[geneIndex]);
           }
         }}

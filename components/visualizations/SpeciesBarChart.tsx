@@ -132,8 +132,10 @@ export default function SpeciesBarChart({ topN = 20, showPercent = false }: Spec
       },
       tooltip: {
         callbacks: {
-          label: function(context: any) {
-            return `${context.dataset.label}: ${context.parsed.y}${showPercent ? '%' : ''}`;
+          label: function(context: Record<string, unknown>) {
+            const dataset = context.dataset as { label?: string };
+            const parsed = context.parsed as { y?: number };
+            return `${dataset.label || ''}: ${parsed.y || 0}${showPercent ? '%' : ''}`;
           },
         },
       },

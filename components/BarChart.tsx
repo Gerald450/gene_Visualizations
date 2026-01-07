@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import type { TooltipItem } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useData } from './DataProvider';
 import { useState, useEffect } from 'react';
@@ -106,8 +107,8 @@ export default function BarChart() {
       },
       tooltip: {
         callbacks: {
-          label: function(context: any) {
-            return `${context.dataset.label}: ${context.parsed.y}%`;
+          label: function(tooltipItem: TooltipItem<'bar'>): string | void | string[] {
+            return `${tooltipItem.dataset.label || ''}: ${tooltipItem.parsed.y}%`;
           },
         },
       },

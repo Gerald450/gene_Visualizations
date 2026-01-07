@@ -42,7 +42,7 @@ interface SankeyLink {
 
 interface ProcessedData {
   genes: GeneData[];
-  hostStats: Record<string, Record<string, number> & { totalIsolates: number }>;
+  hostStats: Record<string, { total: number; genes: Record<string, number> }>;
   hostTotals: Record<string, number>;
   hostPrevalence: Record<string, Record<string, number>>;
   speciesMatrix: Record<string, { jejuni: boolean; coli: boolean }>;
@@ -107,7 +107,7 @@ export async function GET() {
     // Get the first sheet
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as any[];
+    const data = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as unknown[];
 
     if (data.length === 0) {
       return NextResponse.json(
@@ -117,7 +117,8 @@ export async function GET() {
     }
 
     // Extract header row (assuming first row contains headers)
-    const headers = (data[0] as string[]).map(h => (h || '').toString().toLowerCase().trim());
+    const firstRow = Array.isArray(data[0]) ? data[0] : [];
+    const headers = firstRow.map((h: unknown) => (h || '').toString().toLowerCase().trim());
     
     // Find column indices
     const geneNameCol = headers.findIndex(h => h.includes('gene') || h.includes('name'));
@@ -138,16 +139,16 @@ export async function GET() {
 
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
-      if (!row || row.length === 0) continue;
+      if (!Array.isArray(row) || row.length === 0) continue;
 
-      const geneName = (row[geneNameCol] || '').toString().trim();
+      const geneName = ((row[geneNameCol] as unknown) || '').toString().trim();
       if (!geneName) continue;
 
-      const cluster = clusterCol >= 0 ? (row[clusterCol] || '').toString().trim() : undefined;
-      const functionName = functionCol >= 0 ? (row[functionCol] || '').toString().trim() : 'Unknown';
-      const speciesStr = speciesCol >= 0 ? (row[speciesCol] || '').toString().trim() : '';
-      const hostStr = hostCol >= 0 ? (row[hostCol] || '').toString().trim() : '';
-      const notes = notesCol >= 0 ? (row[notesCol] || '').toString().trim() : undefined;
+      const cluster = clusterCol >= 0 ? ((row[clusterCol] as unknown) || '').toString().trim() : undefined;
+      const functionName = functionCol >= 0 ? ((row[functionCol] as unknown) || '').toString().trim() : 'Unknown';
+      const speciesStr = speciesCol >= 0 ? ((row[speciesCol] as unknown) || '').toString().trim() : '';
+      const hostStr = hostCol >= 0 ? ((row[hostCol] as unknown) || '').toString().trim() : '';
+      const notes = notesCol >= 0 ? ((row[notesCol] as unknown) || '').toString().trim() : undefined;
 
       // Parse species (could be comma-separated or single)
       const species = speciesStr
@@ -216,21 +217,25 @@ export async function GET() {
     // Calculate hostTotals and hostPrevalence
     const hostTotals: Record<string, number> = {};
     const hostPrevalence: Record<string, Record<string, number>> = {};
-    const hostStatsWithPrevalence: Record<string, any> = {};
+    const hostStatsWithPrevalence: Record<string, { total: number; genes: Record<string, number> }> = {};
     
     Object.keys(hostStats).forEach(host => {
       const stats = hostStats[host];
       const total = stats.totalIsolates;
       hostTotals[host] = total;
       hostPrevalence[host] = {};
+      // Type narrowing: stats is Record<string, number> & { totalIsolates: number }
+      const statsRecord = stats as Record<string, number>;
+      // Initialize hostStatsWithPrevalence entry with proper structure
       hostStatsWithPrevalence[host] = {
-        totalIsolates: total,
-        genes: {} as Record<string, number>,
+        total: total,
+        genes: {},
       };
       Object.keys(stats).forEach(key => {
         if (key !== 'totalIsolates') {
-          const prevalence = total > 0 
-            ? Math.round((stats[key] / total) * 100 * 100) / 100 // Round to 2 decimals
+          const value = statsRecord[key];
+          const prevalence = total > 0 && typeof value === 'number'
+            ? Math.round((value / total) * 100 * 100) / 100 // Round to 2 decimals
             : 0;
           hostStatsWithPrevalence[host].genes[key] = prevalence;
           hostPrevalence[host][key] = prevalence;

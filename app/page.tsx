@@ -206,7 +206,7 @@ export default function Home() {
             </StoryCard>
 
             {/* Hidden Tableau Visuals - commented out for now */}
-            {false && visuals.map((v, i) => (
+            {false && visuals.map((v) => (
               <div
                 key={v.title}
                 className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition p-10"

@@ -46,7 +46,7 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
   }
 
   // Recompute with topK if different
-  const plotData: any[] = [
+  const plotData: Array<Record<string, unknown>> = [
     {
       type: 'sankey',
       orientation: 'h',
@@ -57,18 +57,18 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
           color: 'black',
           width: 0.5,
         },
-        label: nodes.map((n: any) => n.label),
-        color: nodes.map((n: any, idx: number) => {
+        label: nodes.map((n: Record<string, unknown>) => n.label),
+        color: nodes.map((n: Record<string, unknown>, idx: number) => {
           // Color hosts differently from genes
           const hostCount = Object.keys(data.hostStats).length;
           return idx < hostCount ? '#636efa' : '#ef553b';
         }),
       },
       link: {
-        source: links.map((l: any) => l.source),
-        target: links.map((l: any) => l.target),
-        value: links.map((l: any) => l.value),
-        color: links.map((l: any) => {
+        source: links.map((l: Record<string, unknown>) => l.source),
+        target: links.map((l: Record<string, unknown>) => l.target),
+        value: links.map((l: Record<string, unknown>) => l.value),
+        color: links.map(() => {
           // Color links based on source (host)
           return 'rgba(99, 110, 250, 0.4)';
         }),
@@ -77,7 +77,7 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
     },
   ];
 
-  const layout: any = {
+  const layout: Record<string, unknown> = {
     title: { 
       text: `Host → Gene Flow (Top ${topK} Genes)`,
       font: { size: isMobile ? 12 : isTablet ? 13 : 14 },
@@ -92,7 +92,7 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
     },
   };
 
-  const config: any = {
+  const config: Record<string, unknown> = {
     responsive: true,
     displayModeBar: true,
   };
@@ -104,13 +104,15 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
         layout={layout}
         config={config}
         style={{ width: '100%' }}
-        onClick={(event: any) => {
-          if (onGeneClick && event.points && event.points[0]) {
-            const point = event.points[0];
+        onClick={(event: Record<string, unknown>) => {
+          if (onGeneClick && event.points && Array.isArray(event.points) && event.points[0]) {
+            const point = event.points[0] as Record<string, unknown>;
             // If clicked on a target node (gene), extract gene name
             if (point.curveNumber === 0 && point.pointNumber !== undefined) {
-              const nodeIndex = plotData[0].link.target[point.pointNumber];
-              const geneName = nodes[nodeIndex]?.label;
+              const linkData = plotData[0].link as Record<string, unknown>;
+              const targets = linkData.target as number[];
+              const nodeIndex = targets[point.pointNumber as number];
+              const geneName = (nodes[nodeIndex] as { label: string })?.label;
               if (geneName && !data.hostStats[geneName]) {
                 // It's a gene, not a host
                 onGeneClick(geneName);

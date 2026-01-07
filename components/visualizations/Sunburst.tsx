@@ -38,19 +38,20 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
   }
 
   // Convert hierarchy to Plotly sunburst format
-  const buildSunburstData = (node: any, parent: string = ''): { ids: string[]; labels: string[]; parents: string[]; values: number[] } => {
+  const buildSunburstData = (node: Record<string, unknown>, parent: string = ''): { ids: string[]; labels: string[]; parents: string[]; values: number[] } => {
     const result = { ids: [] as string[], labels: [] as string[], parents: [] as string[], values: [] as number[] };
     
-    const processNode = (n: any, p: string = '') => {
-      const id = p ? `${p}|${n.name}` : n.name;
+    const processNode = (n: Record<string, unknown>, p: string = '') => {
+      const name = n.name as string;
+      const id = p ? `${p}|${name}` : name;
       
       result.ids.push(id);
-      result.labels.push(n.name);
+      result.labels.push(name);
       result.parents.push(p);
-      result.values.push(n.value || 0);
+      result.values.push((n.value as number) || 0);
       
-      if (n.children && n.children.length > 0) {
-        n.children.forEach((child: any) => processNode(child, id));
+      if (n.children && Array.isArray(n.children)) {
+        (n.children as Array<Record<string, unknown>>).forEach((child: Record<string, unknown>) => processNode(child, id));
       }
     };
     
@@ -58,9 +59,9 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
     return result;
   };
 
-  const sunburstData = buildSunburstData(data.sunburstHierarchy);
+  const sunburstData = buildSunburstData(data.sunburstHierarchy as Record<string, unknown>);
 
-  const plotData: any[] = [
+  const plotData: Array<Record<string, unknown>> = [
     {
       type: 'sunburst',
       ...sunburstData,
@@ -71,7 +72,7 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
     },
   ];
 
-  const layout: any = {
+  const layout: Record<string, unknown> = {
     title: { 
       text: 'Species → Host → Gene Count Hierarchy',
       font: { size: isMobile ? 12 : isTablet ? 14 : 16 },
@@ -86,7 +87,7 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
     extendsunburstcolors: true,
   };
 
-  const config: any = {
+  const config: Record<string, unknown> = {
     responsive: true,
     displayModeBar: true,
   };
@@ -98,9 +99,11 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
         layout={layout}
         config={config}
         style={{ width: '100%', height: isMobile ? '450px' : isTablet ? '550px' : '600px' }}
-        onClick={(event: any) => {
-          if (onSectorClick && event.points && event.points[0]) {
-            const path = event.points[0].id.split('|');
+        onClick={(event: Record<string, unknown>) => {
+          if (onSectorClick && event.points && Array.isArray(event.points) && event.points[0]) {
+            const point = event.points[0] as Record<string, unknown>;
+            const id = point.id as string;
+            const path = id.split('|');
             onSectorClick(path);
           }
         }}

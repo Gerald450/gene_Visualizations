@@ -107,9 +107,10 @@ export default function FunctionPie() {
       },
       tooltip: {
         callbacks: {
-          label: function(context: any) {
-            const label = context.label || '';
-            const value = context.parsed || 0;
+          label: function(context: Record<string, unknown>) {
+            const label = (context.label as string) || '';
+            const parsed = context.parsed as number | undefined;
+            const value = parsed || 0;
             const percentage = Math.round((value / total) * 100);
             return `${label.split(' (')[0]}: ${value} genes (${percentage}%)`;
           },
