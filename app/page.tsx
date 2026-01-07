@@ -14,6 +14,7 @@ import SpeciesBarChart from "@/components/visualizations/SpeciesBarChart";
 import FunctionPie from "@/components/visualizations/FunctionPie";
 import Sunburst from "@/components/visualizations/Sunburst";
 import Sankey from "@/components/visualizations/Sankey";
+import VariabilityPlot from "@/components/visualizations/VariabilityPlot";
 
 export default function Home() {
   const [topN, setTopN] = useState(20);
@@ -130,6 +131,14 @@ export default function Home() {
               desc="Heatmap showing prevalence percentage of each gene across different host associations. Rows represent genes (sorted alphabetically), columns represent hosts. Click on a gene to view its details."
             >
               <Heatmap />
+            </StoryCard>
+
+            {/* Variability Plot */}
+            <StoryCard
+              title="Gene Prevalence Variability (Stability)"
+              desc="This visualization shows how stable or variable each virulence gene's prevalence is across hosts and species. Low variability (small error bars) indicates core, conserved virulence genes that are consistently present. High variability (large error bars) indicates host- or species-specific genes that are adaptive. Dots represent mean prevalence, error bars show the min-max range, and colors indicate functional categories."
+            >
+              <VariabilityPlot />
             </StoryCard>
 
             {/* Co-occurrence Network */}
