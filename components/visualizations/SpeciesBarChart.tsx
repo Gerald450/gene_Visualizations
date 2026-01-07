@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import type { TooltipItem } from 'chart.js';
 import { useState, useEffect } from 'react';
 
 ChartJS.register(
@@ -132,10 +133,10 @@ export default function SpeciesBarChart({ topN = 20, showPercent = false }: Spec
       },
       tooltip: {
         callbacks: {
-          label: function(context: Record<string, unknown>) {
-            const dataset = context.dataset as { label?: string };
-            const parsed = context.parsed as { y?: number };
-            return `${dataset.label || ''}: ${parsed.y || 0}${showPercent ? '%' : ''}`;
+          label: function(tooltipItem: TooltipItem<'bar'>): string | void | string[] {
+            const label = tooltipItem.dataset.label || '';
+            const value = tooltipItem.parsed?.y ?? (typeof tooltipItem.raw === 'number' ? tooltipItem.raw : 0);
+            return `${label}: ${value}${showPercent ? '%' : ''}`;
           },
         },
       },

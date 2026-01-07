@@ -57,17 +57,17 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
           color: 'black',
           width: 0.5,
         },
-        label: nodes.map((n: Record<string, unknown>) => n.label),
-        color: nodes.map((n: Record<string, unknown>, idx: number) => {
+        label: nodes.map(n => n.label ?? ''),
+        color: nodes.map((n, idx) => {
           // Color hosts differently from genes
           const hostCount = Object.keys(data.hostStats).length;
           return idx < hostCount ? '#636efa' : '#ef553b';
         }),
       },
       link: {
-        source: links.map((l: Record<string, unknown>) => l.source),
-        target: links.map((l: Record<string, unknown>) => l.target),
-        value: links.map((l: Record<string, unknown>) => l.value),
+        source: links.map(l => l.source),
+        target: links.map(l => l.target),
+        value: links.map(l => l.value),
         color: links.map(() => {
           // Color links based on source (host)
           return 'rgba(99, 110, 250, 0.4)';

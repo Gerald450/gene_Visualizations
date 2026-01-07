@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import type { TooltipItem } from 'chart.js';
 import { useState, useEffect } from 'react';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -107,10 +108,9 @@ export default function FunctionPie() {
       },
       tooltip: {
         callbacks: {
-          label: function(context: Record<string, unknown>) {
-            const label = (context.label as string) || '';
-            const parsed = context.parsed as number | undefined;
-            const value = parsed || 0;
+          label: function(tooltipItem: TooltipItem<'pie'>): string | void | string[] {
+            const label = typeof tooltipItem.label === 'string' ? tooltipItem.label : '';
+            const value = typeof tooltipItem.raw === 'number' ? tooltipItem.raw : 0;
             const percentage = Math.round((value / total) * 100);
             return `${label.split(' (')[0]}: ${value} genes (${percentage}%)`;
           },

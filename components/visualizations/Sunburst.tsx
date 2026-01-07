@@ -7,6 +7,12 @@ import { useState, useEffect } from 'react';
 // Use Plotly for sunburst
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
+interface SunburstNode {
+  name: string;
+  children?: SunburstNode[];
+  value?: number;
+}
+
 interface SunburstProps {
   onSectorClick?: (path: string[]) => void;
 }
@@ -38,20 +44,19 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
   }
 
   // Convert hierarchy to Plotly sunburst format
-  const buildSunburstData = (node: Record<string, unknown>, parent: string = ''): { ids: string[]; labels: string[]; parents: string[]; values: number[] } => {
+  const buildSunburstData = (node: SunburstNode, parent: string = ''): { ids: string[]; labels: string[]; parents: string[]; values: number[] } => {
     const result = { ids: [] as string[], labels: [] as string[], parents: [] as string[], values: [] as number[] };
     
-    const processNode = (n: Record<string, unknown>, p: string = '') => {
-      const name = n.name as string;
-      const id = p ? `${p}|${name}` : name;
+    const processNode = (n: SunburstNode, p: string = '') => {
+      const id = p ? `${p}|${n.name}` : n.name;
       
       result.ids.push(id);
-      result.labels.push(name);
+      result.labels.push(n.name);
       result.parents.push(p);
-      result.values.push((n.value as number) || 0);
+      result.values.push(n.value ?? 0);
       
-      if (n.children && Array.isArray(n.children)) {
-        (n.children as Array<Record<string, unknown>>).forEach((child: Record<string, unknown>) => processNode(child, id));
+      if (n.children && n.children.length > 0) {
+        n.children.forEach((child: SunburstNode) => processNode(child, id));
       }
     };
     
@@ -59,7 +64,7 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
     return result;
   };
 
-  const sunburstData = buildSunburstData(data.sunburstHierarchy as Record<string, unknown>);
+  const sunburstData = buildSunburstData(data.sunburstHierarchy);
 
   const plotData: Array<Record<string, unknown>> = [
     {
