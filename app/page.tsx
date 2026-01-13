@@ -93,6 +93,18 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* INTRODUCTION SECTION */}
+      <section className="pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900 scroll-mt-20">
+        <div className="max-w-3xl mx-auto text-left">
+          <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
+            <em>Campylobacter jejuni</em> and <em>Campylobacter coli</em> are leading causes of bacterial gastroenteritis worldwide and are commonly studied for their virulence-associated genes. These genes play roles in bacterial survival, host interaction, and environmental persistence.
+          </p>
+          <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
+            Understanding how such genes vary across species and hosts is important for identifying broader patterns rather than individual biological outcomes. This dashboard focuses on visualizing those patterns in a clear and interactive way.
+          </p>
+        </div>
+      </section>
+
       {/* VISUALS SECTION */}
       <DataProvider>
         <Section
