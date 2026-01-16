@@ -115,9 +115,12 @@ export default function Home() {
           <div className="flex flex-col gap-6 sm:gap-8">
             {/* Bar Chart */}
             <StoryCard
-              title="Gene Prevalence by Host"
-              desc="Compare the prevalence (%) of major virulence genes across different host associations (Poultry, Cattle, Swine, Human, Multiple)."
+              title="Virulence Gene Prevalence Across Hosts"
+              desc="Compare human vs multi-host prevalence and hover to see gene roles and prevalence gaps."
             >
+              <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed mb-4">
+                This chart shows the prevalence of key virulence genes across different host environments, revealing which genes are conserved across hosts versus those that are host-specific. Bars represent prevalence percentages, allowing you to quickly identify patterns of gene distribution.
+              </p>
               <BarChart />
             </StoryCard>
 
