@@ -143,7 +143,7 @@ export default function Home() {
             {/* Heatmap */}
             <StoryCard
               title="Gene Prevalence Heatmap"
-              desc="Prevalence shows what percentage of bacterial isolates from each host contain a specific gene. Each row represents a gene, each column represents a host association (Poultry, Cattle, Swine, Human, etc.). The color intensity indicates the prevalence percentage—brighter colors mean higher prevalence (the gene appears in more isolates), while darker colors mean lower or absent prevalence. This helps identify conserved (core) genes versus host-specific genes. Click on a gene cell to view its details."
+              desc="Prevalence shows what percentage of bacterial isolates from each host contain a specific gene. Each row represents a gene, each column represents a host association (Poultry, Cattle, Swine, Human, etc.). The color intensity indicates the prevalence percentage, with brighter colors meaning higher prevalence (the gene appears in more isolates), while darker colors mean lower or absent prevalence. This helps identify conserved (core) genes versus host-specific genes. Click on a gene cell to view its details."
             >
               <Heatmap />
             </StoryCard>
@@ -159,7 +159,7 @@ export default function Home() {
             {/* Co-occurrence Network */}
             <StoryCard
               title="Gene Co-Occurrence Network"
-              desc="This network visualization shows which virulence genes tend to appear together in the same bacterial isolates. Each circle (node) represents a gene - larger circles mean the gene appears more frequently. Lines (links) connect genes that co-occur - thicker lines mean those genes are found together more often. Genes are color-coded by function: red (toxin), blue (adhesion), green (invasion), orange (motility). Hover over nodes to see details, or click to explore specific genes."
+              desc="This network visualization shows which virulence genes tend to appear together in the same bacterial isolates. Each circle (node) represents a gene. Larger circles mean the gene appears more frequently. Lines (links) connect genes that co-occur. Thicker lines mean those genes are found together more often. Genes are color-coded by function: red (toxin), blue (adhesion), green (invasion), orange (motility). Hover over nodes to see details, or click to explore specific genes."
             >
               <CooccurrenceNetwork />
             </StoryCard>

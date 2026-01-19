@@ -152,7 +152,7 @@ export default function BarChart() {
             const difference = multiHumanDifferences[geneName] || 0;
             const differenceFormatted = Math.abs(difference).toFixed(1);
             const sign = difference >= 0 ? '+' : '-';
-            const differenceText = `Multi − Human: ${sign}${differenceFormatted} pp`;
+            const differenceText = `Multi to Human: ${sign}${differenceFormatted} pp`;
             
             const lines: string[] = [
               `Host: ${hostGroup}`,

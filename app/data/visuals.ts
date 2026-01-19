@@ -18,7 +18,7 @@ export const visuals = [
     height: 850,
   },
   {
-    title: "Host–Function Relationship",
+    title: "Host Function Relationship",
     desc: "Link hosts to virulence traits.",
     tableauSrc: "https://public.tableau.com/views/VirulenceGene_17612389337390/Dash4?:showVizHome=no&:embed=true&:tabs=no&:toolbar=no",
     height: 900,

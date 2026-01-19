@@ -430,7 +430,7 @@ export default function VariabilityPlot() {
             className="border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-label="Select error bar metric"
           >
-            <option value="range">Min–Max range</option>
+            <option value="range">Min to Max range</option>
             <option value="sd">± 1 SD</option>
           </select>
         </div>
