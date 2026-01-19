@@ -134,8 +134,8 @@ export default function Home() {
 
             {/* Gene Profiles */}
             <StoryCard
-              title="Gene Profiles by function"
-              desc="Explore virulence genes grouped by their functional processes (adhesion, invasion, mobility, toxin, etc.). Click to expand each category."
+              title="Virulence Genes Grouped by Biological Function"
+              desc="This section organizes virulence-associated genes by their annotated functional roles in the project dataset. Expand each category to view the genes included."
             >
               <GeneProfiles />
             </StoryCard>
