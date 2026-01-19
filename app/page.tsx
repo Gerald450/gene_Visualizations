@@ -126,8 +126,8 @@ export default function Home() {
 
             {/* Species Matrix */}
             <StoryCard
-              title="Expressed/Not Expressed Matrix"
-              desc="Visual representation of which genes are present or absent in Campylobacter jejuni versus Campylobacter coli."
+              title="Presence and Absence of Virulence Genes Across Species"
+              desc="This table shows whether selected virulence-associated genes are present or absent in Campylobacter jejuni compared with Campylobacter coli, based on the project dataset."
             >
               <Matrix />
             </StoryCard>
