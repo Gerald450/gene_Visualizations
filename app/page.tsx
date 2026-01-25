@@ -166,9 +166,12 @@ export default function Home() {
 
             {/* Species Bar Chart */}
             <StoryCard
-              title="Species-Specific Gene Distribution"
-              desc={`Comparison of gene counts/percentages between C. jejuni and C. coli for the top ${topN} genes. Shows absolute counts or percentages for each species.`}
+              title="Comparison of Virulence Gene Presence Between Species"
+              desc="This chart compares the presence of selected virulence-associated genes between Campylobacter jejuni and Campylobacter coli. Bars indicate whether a gene is present for each species among the selected top genes."
             >
+              <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-4">
+                A value of 1 indicates gene presence; 0 indicates absence. When percentages are enabled, values represent prevalence.
+              </p>
               <div className="mb-4 flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center">
                 <label className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
                   <span>Top N:</span>
@@ -193,6 +196,9 @@ export default function Home() {
                   <span>Show Percentages</span>
                 </label>
               </div>
+              <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-4">
+                This view highlights genes that are shared across species versus those that appear species-specific in the dataset.
+              </p>
               <SpeciesBarChart topN={topN} showPercent={showPercent} />
             </StoryCard>
 

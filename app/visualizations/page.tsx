@@ -79,9 +79,15 @@ export default function VisualizationsPage() {
             {/* Species Bar Chart */}
             <div className="lg:col-span-2">
               <StoryCard
-                title="Species-Specific Gene Distribution"
-                desc={`Comparison of gene counts/percentages between C. jejuni and C. coli for the top ${topN} genes.`}
+                title="Comparison of Virulence Gene Presence Between Species"
+                desc="This chart compares the presence of selected virulence-associated genes between Campylobacter jejuni and Campylobacter coli. Bars indicate whether a gene is present for each species among the selected top genes."
               >
+                <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-4">
+                  A value of 1 indicates gene presence; 0 indicates absence. When percentages are enabled, values represent prevalence.
+                </p>
+                <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-4">
+                  This view highlights genes that are shared across species versus those that appear species-specific in the dataset.
+                </p>
                 <SpeciesBarChart topN={topN} showPercent={showPercent} />
               </StoryCard>
             </div>
