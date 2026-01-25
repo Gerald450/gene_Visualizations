@@ -115,9 +115,12 @@ export default function VisualizationsPage() {
             {/* Sankey Diagram */}
             <div className="lg:col-span-2">
               <StoryCard
-                title="Host to Gene Flow"
-                desc={`Sankey diagram showing the flow from host categories to the top ${topN} genes. Link thickness represents the number of isolates.`}
+                title="Distribution of Virulence Genes Across Host Categories"
+                desc="This visualization shows how virulence-associated genes are distributed across different host categories. Connections link host groups to genes, with thicker connections indicating a higher number of isolates containing that gene within the host."
               >
+                <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-4">
+                  This view highlights which genes are most commonly associated with specific host categories in the dataset.
+                </p>
                 <Sankey topK={topN} onGeneClick={handleGeneClick} />
               </StoryCard>
             </div>

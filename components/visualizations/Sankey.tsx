@@ -32,7 +32,7 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading Sankey diagram...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading visualization...</div>;
   }
 
   if (error || !data || !data.sankeyData) {
@@ -42,7 +42,7 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
   const { nodes, links } = data.sankeyData;
 
   if (nodes.length === 0 || links.length === 0) {
-    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">No Sankey data available</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-400">No data available</div>;
   }
 
   // Recompute with topK if different
@@ -79,7 +79,7 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
 
   const layout: Record<string, unknown> = {
     title: { 
-      text: `Host → Gene Flow (Top ${topK} Genes)`,
+      text: `Distribution Across Host Categories (Top ${topK} Genes)`,
       font: { size: isMobile ? 12 : isTablet ? 13 : 14 },
     },
     font: { size: isMobile ? 10 : isTablet ? 11 : 12 },
@@ -99,6 +99,26 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
 
   return (
     <div className="w-full">
+      <div className="flex flex-wrap gap-3 sm:gap-4 items-center mb-3 text-xs sm:text-sm">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded" style={{ backgroundColor: '#636efa' }}></div>
+          <span className="text-gray-600 dark:text-gray-400">
+            <span className="font-medium">Blue nodes:</span> Host categories
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded" style={{ backgroundColor: '#ef553b' }}></div>
+          <span className="text-gray-600 dark:text-gray-400">
+            <span className="font-medium">Red nodes:</span> Genes
+          </span>
+        </div>
+        <div className="text-gray-600 dark:text-gray-400 text-xs">
+          <span className="font-medium">Connection thickness:</span> Number of isolates
+        </div>
+      </div>
+      <p className="text-gray-500 dark:text-gray-500 text-xs mb-3 italic">
+        Tip: Hover over a connection to see the isolate count.
+      </p>
       <Plot
         data={plotData}
         layout={layout}
