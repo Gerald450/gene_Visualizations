@@ -106,7 +106,7 @@ export default function VisualizationsPage() {
             <div>
               <StoryCard
                 title="Hierarchical View: Species → Host → Gene Count"
-                desc="Sunburst diagram showing the hierarchy from all isolates, down to species, then hosts, with gene counts at each level."
+                desc="This visualization shows how gene counts are distributed across all isolates, first by species and then by host category. Segment size reflects the relative gene count, and color indicates species."
               >
                 <Sunburst />
               </StoryCard>
