@@ -1,6 +1,8 @@
 'use client';
 
 import { useData } from './DataProvider';
+import GeneTooltip from './GeneTooltip';
+import { useMemo } from 'react';
 
 export default function Matrix() {
   const { data, loading, error } = useData();
@@ -20,8 +22,30 @@ export default function Matrix() {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">No gene data available</div>;
   }
 
+  // Create a map of gene metadata for quick lookup
+  const geneMetadata = useMemo(() => {
+    const metadata: Record<string, { function?: string; notes?: string }> = {};
+    data.genes.forEach(gene => {
+      if (!metadata[gene.geneName]) {
+        metadata[gene.geneName] = {
+          function: gene.function && gene.function !== 'Unknown' ? gene.function : undefined,
+          notes: gene.notes || undefined,
+        };
+      } else {
+        // If we already have this gene, merge notes if available
+        if (gene.notes && !metadata[gene.geneName].notes) {
+          metadata[gene.geneName].notes = gene.notes;
+        }
+        if (gene.function && gene.function !== 'Unknown' && !metadata[gene.geneName].function) {
+          metadata[gene.geneName].function = gene.function;
+        }
+      }
+    });
+    return metadata;
+  }, [data.genes]);
+
   return (
-    <div className="overflow-x-auto -mx-4 sm:mx-0">
+    <div className="-mx-4 sm:mx-0" style={{ overflowX: 'auto', overflowY: 'visible' }}>
       <div className="inline-block min-w-full align-middle">
         <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-600 text-sm sm:text-base">
           <thead>
@@ -34,9 +58,27 @@ export default function Matrix() {
           <tbody>
             {genes.map((gene, index) => {
               const presence = matrix[gene];
+              const metadata = geneMetadata[gene] || {};
+              const tooltipId = `gene-tooltip-${gene}-${index}`;
               return (
                 <tr key={gene} className={index % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'}>
-                  <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 font-medium text-gray-900 dark:text-gray-100 text-xs sm:text-sm">{gene}</td>
+                  <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 font-medium text-gray-900 dark:text-gray-100 text-xs sm:text-sm">
+                    <GeneTooltip
+                      geneName={gene}
+                      functionalAnnotation={metadata.function}
+                      knownVirulenceRole={metadata.notes}
+                      tooltipId={tooltipId}
+                    >
+                      <button
+                        type="button"
+                        className="cursor-pointer hover:underline focus:underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded px-1 -mx-1 text-left inline-block bg-transparent border-none p-0 m-0 font-medium text-gray-900 dark:text-gray-100 text-xs sm:text-sm"
+                        tabIndex={0}
+                        aria-describedby={tooltipId}
+                      >
+                        {gene}
+                      </button>
+                    </GeneTooltip>
+                  </td>
                   <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center">
                     <span
                       className={`inline-block w-5 h-5 sm:w-6 sm:h-6 rounded ${
