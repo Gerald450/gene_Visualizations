@@ -125,9 +125,12 @@ export default function Home() {
 
             {/* Species Matrix */}
             <StoryCard
-              title="Presence and Absence of Virulence Genes Across Species"
-              desc="This table shows whether selected virulence-associated genes are present or absent in Campylobacter jejuni compared with Campylobacter coli, based on the project dataset."
+              title="Gene Expression of Virulence Genes Across Species"
+              desc="This table shows whether selected virulence-associated genes are expressed in Campylobacter jejuni compared with Campylobacter coli, based on the project dataset. The comparison highlights species-level differences in virulence gene repertoires."
             >
+              <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed mb-4">
+                Gene expression (presence/absence) is derived from genomic annotation. Hover over gene names to view locus tag and chromosome location information.
+              </p>
               <Matrix />
             </StoryCard>
 

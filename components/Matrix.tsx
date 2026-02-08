@@ -7,6 +7,53 @@ import { useMemo } from 'react';
 export default function Matrix() {
   const { data, loading, error } = useData();
 
+  // Create a map of gene metadata for quick lookup
+  // Always call useMemo, even when data is undefined, using safe fallbacks
+  const geneMetadata = useMemo(() => {
+    const metadata: Record<string, { 
+      function?: string; 
+      notes?: string; 
+      locusTag?: string; 
+      chromosomeLocation?: string;
+    }> = {};
+    
+    // Use safe fallback: empty array if data or data.genes is undefined
+    const genes = data?.genes || [];
+    genes.forEach(gene => {
+      if (!metadata[gene.geneName]) {
+        metadata[gene.geneName] = {
+          function: gene.function && gene.function !== 'Unknown' ? gene.function : undefined,
+          notes: gene.notes || undefined,
+          // Extract locus tag and chromosome location from notes if available
+          // Format: "Locus tag: XXX" or "Location: XXX" or similar patterns
+          locusTag: gene.notes?.match(/locus[:\s]+([^\s,;]+)/i)?.[1] || 
+                    gene.notes?.match(/locus tag[:\s]+([^\s,;]+)/i)?.[1] || 
+                    undefined,
+          chromosomeLocation: gene.notes?.match(/chromosome[:\s]+([^\s,;]+)/i)?.[1] || 
+                              gene.notes?.match(/location[:\s]+([^\s,;]+)/i)?.[1] || 
+                              undefined,
+        };
+      } else {
+        // If we already have this gene, merge notes if available
+        if (gene.notes && !metadata[gene.geneName].notes) {
+          metadata[gene.geneName].notes = gene.notes;
+          // Re-extract locus tag and location from merged notes
+          metadata[gene.geneName].locusTag = gene.notes.match(/locus[:\s]+([^\s,;]+)/i)?.[1] || 
+                                             gene.notes.match(/locus tag[:\s]+([^\s,;]+)/i)?.[1] || 
+                                             metadata[gene.geneName].locusTag;
+          metadata[gene.geneName].chromosomeLocation = gene.notes.match(/chromosome[:\s]+([^\s,;]+)/i)?.[1] || 
+                                                        gene.notes.match(/location[:\s]+([^\s,;]+)/i)?.[1] || 
+                                                        metadata[gene.geneName].chromosomeLocation;
+        }
+        if (gene.function && gene.function !== 'Unknown' && !metadata[gene.geneName].function) {
+          metadata[gene.geneName].function = gene.function;
+        }
+      }
+    });
+    return metadata;
+  }, [data?.genes]);
+
+  // Early returns AFTER all hooks have been called
   if (loading) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading matrix data...</div>;
   }
@@ -21,28 +68,6 @@ export default function Matrix() {
   if (genes.length === 0) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">No gene data available</div>;
   }
-
-  // Create a map of gene metadata for quick lookup
-  const geneMetadata = useMemo(() => {
-    const metadata: Record<string, { function?: string; notes?: string }> = {};
-    data.genes.forEach(gene => {
-      if (!metadata[gene.geneName]) {
-        metadata[gene.geneName] = {
-          function: gene.function && gene.function !== 'Unknown' ? gene.function : undefined,
-          notes: gene.notes || undefined,
-        };
-      } else {
-        // If we already have this gene, merge notes if available
-        if (gene.notes && !metadata[gene.geneName].notes) {
-          metadata[gene.geneName].notes = gene.notes;
-        }
-        if (gene.function && gene.function !== 'Unknown' && !metadata[gene.geneName].function) {
-          metadata[gene.geneName].function = gene.function;
-        }
-      }
-    });
-    return metadata;
-  }, [data.genes]);
 
   return (
     <div className="-mx-4 sm:mx-0" style={{ overflowX: 'auto', overflowY: 'visible' }}>
@@ -67,6 +92,8 @@ export default function Matrix() {
                       geneName={gene}
                       functionalAnnotation={metadata.function}
                       knownVirulenceRole={metadata.notes}
+                      locusTag={metadata.locusTag}
+                      chromosomeLocation={metadata.chromosomeLocation}
                       tooltipId={tooltipId}
                     >
                       <button
@@ -84,7 +111,7 @@ export default function Matrix() {
                       className={`inline-block w-5 h-5 sm:w-6 sm:h-6 rounded ${
                         presence.jejuni ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
                       }`}
-                      title={presence.jejuni ? 'Present' : 'Absent'}
+                      title={presence.jejuni ? 'Expressed' : 'Not expressed'}
                     />
                   </td>
                   <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center">
@@ -92,7 +119,7 @@ export default function Matrix() {
                       className={`inline-block w-5 h-5 sm:w-6 sm:h-6 rounded ${
                         presence.coli ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
                       }`}
-                      title={presence.coli ? 'Present' : 'Absent'}
+                      title={presence.coli ? 'Expressed' : 'Not expressed'}
                     />
                   </td>
                 </tr>

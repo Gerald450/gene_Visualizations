@@ -7,6 +7,8 @@ interface GeneTooltipProps {
   geneName: string;
   functionalAnnotation?: string;
   knownVirulenceRole?: string;
+  locusTag?: string;
+  chromosomeLocation?: string;
   children: ReactNode;
   tooltipId: string;
 }
@@ -19,6 +21,8 @@ export default function GeneTooltip({
   geneName,
   functionalAnnotation,
   knownVirulenceRole,
+  locusTag,
+  chromosomeLocation,
   children,
   tooltipId,
 }: GeneTooltipProps) {
@@ -113,7 +117,7 @@ export default function GeneTooltip({
   };
 
   // Determine tooltip content
-  const hasContent = functionalAnnotation || knownVirulenceRole;
+  const hasContent = functionalAnnotation || knownVirulenceRole || locusTag || chromosomeLocation;
   const tooltipContent = (
     <div
       ref={tooltipRef}
@@ -141,6 +145,16 @@ export default function GeneTooltip({
       <div style={{ fontWeight: 600, marginBottom: hasContent ? '4px' : '0' }}>
         Gene: {geneName}
       </div>
+      {locusTag && (
+        <div style={{ marginTop: '4px' }}>
+          Locus tag: {locusTag}
+        </div>
+      )}
+      {chromosomeLocation && (
+        <div style={{ marginTop: '4px' }}>
+          Chromosome location: {chromosomeLocation}
+        </div>
+      )}
       {functionalAnnotation && (
         <div style={{ marginTop: '4px' }}>
           Functional annotation: {functionalAnnotation}
