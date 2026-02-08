@@ -8,13 +8,11 @@ import StoryCard from "@/components/StoryCard";
 import BarChart from "@/components/BarChart";
 import Matrix from "@/components/Matrix";
 import GeneProfiles from "@/components/GeneProfiles";
-import Heatmap from "@/components/visualizations/Heatmap";
 import CooccurrenceNetwork from "@/components/visualizations/CooccurrenceNetwork";
 import SpeciesBarChart from "@/components/visualizations/SpeciesBarChart";
 import FunctionPie from "@/components/visualizations/FunctionPie";
 import Sunburst from "@/components/visualizations/Sunburst";
 import Sankey from "@/components/visualizations/Sankey";
-import VariabilityPlot from "@/components/visualizations/VariabilityPlot";
 import FunctionalContext from "@/components/visualizations/FunctionalContext";
 
 export default function Home() {
@@ -139,22 +137,6 @@ export default function Home() {
               desc="This section organizes virulence-associated genes by their annotated functional roles in the project dataset. Expand each category to view the genes included."
             >
               <GeneProfiles />
-            </StoryCard>
-
-            {/* Heatmap */}
-            <StoryCard
-              title="Gene Prevalence Heatmap"
-              desc="Prevalence shows what percentage of bacterial isolates from each host contain a specific gene. Each row represents a gene, each column represents a host association (Poultry, Cattle, Swine, Human, etc.). The color intensity indicates the prevalence percentage, with brighter colors meaning higher prevalence (the gene appears in more isolates), while darker colors mean lower or absent prevalence. This helps identify conserved (core) genes versus host-specific genes. Click on a gene cell to view its details."
-            >
-              <Heatmap />
-            </StoryCard>
-
-            {/* Variability Plot */}
-            <StoryCard
-              title="Gene Prevalence Variability (Stability)"
-              desc="This visualization shows how stable or variable each virulence gene's prevalence is across hosts and species. Low variability (small error bars) indicates core, conserved virulence genes that are consistently present. High variability (large error bars) indicates host- or species-specific genes that are adaptive. Dots represent mean prevalence, error bars show the min-max range, and colors indicate functional categories."
-            >
-              <VariabilityPlot />
             </StoryCard>
 
             {/* Co-occurrence Network */}
