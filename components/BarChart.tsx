@@ -76,29 +76,65 @@ export default function BarChart() {
     genesToDisplay.push(...Array.from(allGenes).slice(0, 10));
   }
 
-  // Host categories
-  const hostCategories = ['Poultry', 'Cattle', 'Swine', 'Human', 'Multiple'];
-  const availableHosts = hostCategories.filter(host => data.hostStats[host]);
-
-  // Prepare chart data
-  const datasets = availableHosts.map((host, index) => {
-    const hostData = data.hostStats[host];
-    const backgroundColor = `hsl(${(index * 360) / availableHosts.length}, 70%, 60%)`;
+  // Helper function to find host key with case-insensitive, trimmed matching
+  const findHostKey = (searchTerms: string[]): string | null => {
+    const hostKeys = Object.keys(data.hostStats);
+    const normalizedSearchTerms = searchTerms.map(term => term.toLowerCase().trim());
     
-    return {
-      label: host,
-      data: genesToDisplay.map(gene => hostData.genes[gene] || 0),
-      backgroundColor,
-    };
-  });
+    // First try exact match
+    for (const key of hostKeys) {
+      const keyLower = key.toLowerCase().trim();
+      if (normalizedSearchTerms.includes(keyLower)) {
+        return key;
+      }
+    }
+    
+    // Then try contains match
+    for (const key of hostKeys) {
+      const keyLower = key.toLowerCase().trim();
+      for (const term of normalizedSearchTerms) {
+        if (keyLower.includes(term) || term.includes(keyLower)) {
+          return key;
+        }
+      }
+    }
+    
+    return null;
+  };
 
-  // Pre-compute Multi-Human differences for tooltips
-  const multiHumanDifferences: Record<string, number> = {};
-  genesToDisplay.forEach(gene => {
-    const multiPrevalence = data.hostStats['Multiple']?.genes[gene] || 0;
-    const humanPrevalence = data.hostStats['Human']?.genes[gene] || 0;
-    multiHumanDifferences[gene] = multiPrevalence - humanPrevalence;
-  });
+  // Find host keys from dataset (case-insensitive, trimmed matching)
+  const humansKey = findHostKey(['Humans', 'Human']);
+  const foodAnimalsKey = findHostKey(['Food animals']);
+  const bothKey = findHostKey(['Multiple (food animals, humans)', 'Multiple']);
+
+  // Host category mapping: dataset key -> display label -> color
+  const hostCategoryMap: Array<{ key: string | null; label: string; color: string }> = [
+    { key: humansKey, label: 'Humans', color: '#22c55e' }, // green
+    { key: foodAnimalsKey, label: 'Food animals', color: '#eab308' }, // yellow
+    { key: bothKey, label: 'Both (Humans + Food animals)', color: '#ef4444' }, // red
+  ];
+
+  // Prepare chart data with three categories
+  const datasets = hostCategoryMap
+    .filter(category => category.key && data.hostStats[category.key])
+    .map(category => {
+      const hostData = data.hostStats[category.key!];
+      return {
+        label: category.label,
+        data: genesToDisplay.map(gene => hostData.genes[gene] || 0),
+        backgroundColor: category.color,
+      };
+    });
+
+  // Pre-compute Both-Humans differences for tooltips
+  const bothHumanDifferences: Record<string, number> = {};
+  if (bothKey && humansKey) {
+    genesToDisplay.forEach(gene => {
+      const bothPrevalence = data.hostStats[bothKey]?.genes[gene] || 0;
+      const humanPrevalence = data.hostStats[humansKey]?.genes[gene] || 0;
+      bothHumanDifferences[gene] = bothPrevalence - humanPrevalence;
+    });
+  }
 
   const chartData = {
     labels: genesToDisplay,
@@ -148,12 +184,6 @@ export default function BarChart() {
               }
             }
             
-            // Calculate Multi - Human difference (show for all hosts)
-            const difference = multiHumanDifferences[geneName] || 0;
-            const differenceFormatted = Math.abs(difference).toFixed(1);
-            const sign = difference >= 0 ? '+' : '-';
-            const differenceText = `Multi to Human: ${sign}${differenceFormatted} pp`;
-            
             const lines: string[] = [
               `Host: ${hostGroup}`,
               `Prevalence: ${prevalence}%`,
@@ -163,7 +193,14 @@ export default function BarChart() {
               lines.push(`Function: ${geneFunction}`);
             }
             
-            lines.push(differenceText);
+            // Show Both-Humans difference for relevant categories
+            if (hostGroup === 'Both (Humans + Food animals)' || hostGroup === 'Humans') {
+              const difference = bothHumanDifferences[geneName] || 0;
+              const differenceFormatted = Math.abs(difference).toFixed(1);
+              const sign = difference >= 0 ? '+' : '-';
+              const differenceText = `Both to Humans: ${sign}${differenceFormatted} pp`;
+              lines.push(differenceText);
+            }
             
             return lines;
           },
