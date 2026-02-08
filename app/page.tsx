@@ -76,6 +76,12 @@ export default function Home() {
             >
               Download Excel File
             </a>
+            <a
+              href="#references"
+              className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition text-sm sm:text-base w-full sm:w-auto"
+            >
+              View References
+            </a>
           </div>
         </div>
       </section>
@@ -271,13 +277,33 @@ export default function Home() {
         title="About This Project"
         subtitle="Turning complex virulence gene data into simple insights."
       >
-        <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto px-4">
-          Virulence Insights is a student-led data storytelling project that
-          visualizes patterns in Campylobacter jejuni and Campylobacter coli
-          virulence factors. Built with Next.js, it integrates interactive
-          visualizations for exploration.
-        </p>
+        <div className="max-w-3xl mx-auto px-4">
+          <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
+            Virulence Insights is a student-led data storytelling project that visualizes patterns in <em>Campylobacter jejuni</em> and <em>Campylobacter coli</em> virulence factors through interactive visualizations.
+          </p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base italic">
+            Funding: Supported by the Grant (Grant ID: GRANT-XXXX). 
+          </p>
+        </div>
       </Section>
+
+      {/* REFERENCES SECTION */}
+      <section id="references" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 text-center bg-gray-50 dark:bg-gray-900 scroll-mt-20">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-gray-100">References</h2>
+          <div className="max-w-3xl mx-auto text-left mt-8 space-y-4">
+            <div className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">
+              <p className="mb-2">
+                <span className="font-medium">ref-001:</span> Example study title — Author et al. (Year)
+              </p>
+              <p className="mb-2">
+                <span className="font-medium">ref-002:</span> Example epidemiology paper — Journal
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* TEAM SECTION */}
       <Section id="team" title="Our Team">
         <p className="text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 text-sm sm:text-base px-4">
