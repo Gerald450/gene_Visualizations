@@ -10,6 +10,7 @@ import Sunburst from '@/components/visualizations/Sunburst';
 import Sankey from '@/components/visualizations/Sankey';
 import ControlPanel from '@/components/visualizations/ControlPanel';
 import StoryCard from '@/components/StoryCard';
+import FunctionalContext from '@/components/visualizations/FunctionalContext';
 
 export default function VisualizationsPage() {
   const [topN, setTopN] = useState(20);
@@ -122,6 +123,16 @@ export default function VisualizationsPage() {
                   This view highlights which genes are most commonly associated with specific host categories in the dataset.
                 </p>
                 <Sankey topK={topN} onGeneClick={handleGeneClick} />
+              </StoryCard>
+            </div>
+
+            {/* Functional Context */}
+            <div className="lg:col-span-2">
+              <StoryCard
+                title="Functional Context of Virulence Genes"
+                desc="Genes are grouped by established virulence-related roles to support interpretation of host and species distribution patterns."
+              >
+                <FunctionalContext />
               </StoryCard>
             </div>
           </div>

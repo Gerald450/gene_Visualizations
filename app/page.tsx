@@ -15,6 +15,7 @@ import FunctionPie from "@/components/visualizations/FunctionPie";
 import Sunburst from "@/components/visualizations/Sunburst";
 import Sankey from "@/components/visualizations/Sankey";
 import VariabilityPlot from "@/components/visualizations/VariabilityPlot";
+import FunctionalContext from "@/components/visualizations/FunctionalContext";
 
 export default function Home() {
   const [topN, setTopN] = useState(20);
@@ -45,11 +46,17 @@ export default function Home() {
               All in one interactive dashboard.
             </span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-6 md:mb-10">
-            Explore patterns in <em>Campylobacter jejuni</em> and{" "}
-            <em>Campylobacter coli </em>
-            through clear, data-driven storytelling.
-          </p>
+          <div className="text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-6 md:mb-10 space-y-4">
+            <p>
+              Campylobacter is the leading cause of bacterial gastroenteritis worldwide, and the most common strains, <em>Campylobacter jejuni</em> and <em>Campylobacter coli</em> are commonly studied and their virulence-associated genes profiled. These genes play roles in bacterial survival, host interactions, and environmental persistence.
+            </p>
+            <p>
+              Understanding the variations in gene expression across species and hosts is important for identifying broader patterns rather than individual biological outcomes. This dashboard focuses on visualizing those patterns in a clear and interactive way.
+            </p>
+            <p>
+              Explore patterns in <em>Campylobacter jejuni</em> and <em>Campylobacter coli</em> through clear, data-driven storytelling.
+            </p>
+          </div>
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 items-center">
             <a
               href="/visualizations"
@@ -92,18 +99,6 @@ export default function Home() {
           )}
         </div>
       </Section>
-
-      {/* INTRODUCTION SECTION */}
-      <section className="pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900 scroll-mt-20">
-        <div className="max-w-3xl mx-auto text-left">
-          <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
-            <em>Campylobacter jejuni</em> and <em>Campylobacter coli</em> are leading causes of bacterial gastroenteritis worldwide and are commonly studied for their virulence-associated genes. These genes play roles in bacterial survival, host interaction, and environmental persistence.
-          </p>
-          <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
-            Understanding how such genes vary across species and hosts is important for identifying broader patterns rather than individual biological outcomes. This dashboard focuses on visualizing those patterns in a clear and interactive way.
-          </p>
-        </div>
-      </section>
 
       {/* VISUALS SECTION */}
       <DataProvider>
@@ -229,6 +224,14 @@ export default function Home() {
               <Sankey topK={topN} />
             </StoryCard>
 
+            {/* Functional Context */}
+            <StoryCard
+              title="Functional Context of Virulence Genes"
+              desc="Genes are grouped by established virulence-related roles to support interpretation of host and species distribution patterns."
+            >
+              <FunctionalContext />
+            </StoryCard>
+
             {/* Hidden Tableau Visuals - commented out for now */}
             {false && visuals.map((v) => (
               <div
@@ -270,7 +273,7 @@ export default function Home() {
       >
         <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto px-4">
           Virulence Insights is a student-led data storytelling project that
-          visualizes patterns in *Campylobacter jejuni* and *Campylobacter coli*
+          visualizes patterns in Campylobacter jejuni and Campylobacter coli
           virulence factors. Built with Next.js, it integrates interactive
           visualizations for exploration.
         </p>
