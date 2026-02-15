@@ -21,6 +21,13 @@ export const references: ReferenceItem[] = [
       'Worku, M.; Tessema, B.; Ferede, G.; et al. Campylobacter jejuni and Campylobacter coli infection, determinants and antimicrobial resistance patterns among under-five children with diarrhea in Amhara National Regional State, Northwest Ethiopia. PLoS One. 2024; 19(7):e0304409.',
     url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC11221748/',
   },
+  {
+    id: 'ref-003',
+    number: 3,
+    fullCitation:
+      'Gene Summary Document. Compiled summary of virulence gene functions. Derived from NCBI resources.',
+    url: 'https://docs.google.com/document/d/1nGM_d6KqRyYwXWut-rQ5fjyRseuA2HIZdevH4Ug_-ig/edit?tab=t.0',
+  },
 ];
 
 export function getReferenceById(id: string): ReferenceItem | undefined {
