@@ -16,6 +16,7 @@ import Sankey from "@/components/visualizations/Sankey";
 import FunctionalContext from "@/components/visualizations/FunctionalContext";
 import ReferencesSection from "@/components/ReferencesSection";
 import Citation from "@/components/Citation";
+import VizSourceFooter from "@/components/VizSourceFooter";
 
 export default function Home() {
   const [topN, setTopN] = useState(20);
@@ -123,6 +124,7 @@ export default function Home() {
                 This chart shows the prevalence of key virulence genes across different host environments, revealing which genes are conserved across hosts versus those that are host-specific. Bars represent prevalence percentages, allowing you to quickly identify patterns of gene distribution.
               </p>
               <BarChart />
+              <VizSourceFooter />
             </StoryCard>
 
             {/* Species Matrix */}
@@ -134,6 +136,7 @@ export default function Home() {
                 Gene expression (presence/absence) is derived from genomic annotation. Hover over gene names to view locus tag and chromosome location information.
               </p>
               <Matrix />
+              <VizSourceFooter />
             </StoryCard>
 
             {/* Gene Profiles */}
@@ -142,6 +145,7 @@ export default function Home() {
               desc="This section organizes virulence-associated genes by their annotated functional roles in the project dataset. Expand each category to view the genes included."
             >
               <GeneProfiles />
+              <VizSourceFooter />
             </StoryCard>
 
             {/* Co-occurrence Network */}
@@ -150,6 +154,7 @@ export default function Home() {
               desc="This network visualization shows which virulence genes tend to appear together in the same bacterial isolates. Each circle (node) represents a gene. Larger circles mean the gene appears more frequently. Lines (links) connect genes that co-occur. Thicker lines mean those genes are found together more often. Genes are color-coded by function: red (toxin), blue (adhesion), green (invasion), orange (motility). Hover over nodes to see details, or click to explore specific genes."
             >
               <CooccurrenceNetwork />
+              <VizSourceFooter />
             </StoryCard>
 
             {/* Species Bar Chart */}
@@ -188,6 +193,7 @@ export default function Home() {
                 This view highlights genes that are shared across species versus those that appear species-specific in the dataset.
               </p>
               <SpeciesBarChart topN={topN} showPercent={showPercent} />
+              <VizSourceFooter />
             </StoryCard>
 
             {/* Function Pie Chart */}
@@ -196,6 +202,7 @@ export default function Home() {
               desc="Distribution of genes by functional category (Adhesion, Invasion, Toxin, Motility, Iron uptake, Stress response, Other). Hover to see counts and percentages."
             >
               <FunctionPie />
+              <VizSourceFooter />
             </StoryCard>
 
             {/* Sunburst */}
@@ -204,6 +211,7 @@ export default function Home() {
               desc="This visualization shows how gene counts are distributed across all isolates, first by species and then by host category. Segment size reflects the relative gene count, and color indicates species."
             >
               <Sunburst />
+              <VizSourceFooter />
             </StoryCard>
 
             {/* Sankey Diagram */}
@@ -215,6 +223,7 @@ export default function Home() {
                 This view highlights which genes are most commonly associated with specific host categories in the dataset.
               </p>
               <Sankey topK={topN} />
+              <VizSourceFooter />
             </StoryCard>
 
             {/* Functional Context */}
@@ -223,6 +232,7 @@ export default function Home() {
               desc="Genes are grouped by established virulence-related roles to support interpretation of host and species distribution patterns."
             >
               <FunctionalContext />
+              <VizSourceFooter />
             </StoryCard>
 
             {/* Hidden Tableau Visuals - commented out for now */}
