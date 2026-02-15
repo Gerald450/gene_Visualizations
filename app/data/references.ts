@@ -28,6 +28,13 @@ export const references: ReferenceItem[] = [
       'Gene Summary Document. Compiled summary of virulence gene functions. Derived from NCBI resources.',
     url: 'https://docs.google.com/document/d/1nGM_d6KqRyYwXWut-rQ5fjyRseuA2HIZdevH4Ug_-ig/edit?tab=t.0',
   },
+  {
+    id: 'ref-004',
+    number: 4,
+    fullCitation:
+      'Teksoy, N.; Ilktac, M.; Ongen, B. Investigating the Significance of Non-jejuni/coli Campylobacter Strains in Patients with Diarrhea. Healthcare. 2023; 11(18):2562.',
+    url: 'https://www.mdpi.com/2227-9032/11/18/2562',
+  },
 ];
 
 export function getReferenceById(id: string): ReferenceItem | undefined {
