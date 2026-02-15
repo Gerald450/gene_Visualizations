@@ -41,10 +41,10 @@ export default function Home() {
       <section id="hero" className="text-center py-20 md:py-40 bg-gray-50 dark:bg-gray-900 scroll-mt-20 px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 md:mb-6 text-gray-900 dark:text-gray-100">
-            Data. Genes. Insights.
+            Virulence Gene Insights.
             <br />
             <span className="text-blue-600 dark:text-blue-400">
-              All in one interactive dashboard.
+              Visualized.
             </span>
           </h1>
           <div className="text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-6 md:mb-10 space-y-4">
