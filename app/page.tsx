@@ -144,6 +144,9 @@ export default function Home() {
               title="Virulence Genes Grouped by Biological Function"
               desc="This section organizes virulence-associated genes by their annotated functional roles in the project dataset. Expand each category to view the genes included."
             >
+              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm italic mb-4">
+                Tip: Click on a gene to view its full profile and detailed annotation.
+              </p>
               <GeneProfiles />
               <VizSourceFooter />
             </StoryCard>
