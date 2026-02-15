@@ -84,25 +84,15 @@ function normalizeHost(host: string): string {
 export async function GET() {
   try {
     // Read Excel file from public directory
-    const filePath = path.join(process.cwd(), 'public', 'data', 'campylobacter.xlsx');
-    
-    // Fallback to alternative path if primary doesn't exist
-    let workbook: XLSX.WorkBook;
-    if (fs.existsSync(filePath)) {
-      const fileBuffer = fs.readFileSync(filePath);
-      workbook = XLSX.read(fileBuffer, { type: 'buffer' });
-    } else {
-      // Try alternative path
-      const altPath = path.join(process.cwd(), 'public', 'data', 'campylobacter (1).xlsx');
-      if (!fs.existsSync(altPath)) {
-        return NextResponse.json(
-          { error: 'Excel file not found' },
-          { status: 404 }
-        );
-      }
-      const fileBuffer = fs.readFileSync(altPath);
-      workbook = XLSX.read(fileBuffer, { type: 'buffer' });
+    const filePath = path.join(process.cwd(), 'public', 'data', 'campylobacter (1).xlsx');
+    if (!fs.existsSync(filePath)) {
+      return NextResponse.json(
+        { error: 'Excel file not found' },
+        { status: 404 }
+      );
     }
+    const fileBuffer = fs.readFileSync(filePath);
+    const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
 
     // Get the first sheet
     const sheetName = workbook.SheetNames[0];

@@ -16,8 +16,7 @@ npm install
 ```
 
 2. Ensure the Excel file is placed at:
-   - `/public/data/campylobacter.xlsx` (primary location)
-   - OR `/public/data/campylobacter (1).xlsx` (fallback)
+   - `/public/data/campylobacter (1).xlsx`
 
 3. Run the development server:
 
@@ -91,7 +90,7 @@ my-app/
 │   └── DataProvider.tsx          # Data context provider
 └── public/
     └── data/
-        └── campylobacter.xlsx    # Source Excel file
+        └── campylobacter (1).xlsx    # Source Excel file
 ```
 
 ## Learn More
