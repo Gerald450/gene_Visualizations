@@ -3,6 +3,7 @@
 import { useData } from '../DataProvider';
 import { useMemo, useState, useEffect } from 'react';
 import GeneTooltip from '../GeneTooltip';
+import Citation from '../Citation';
 
 /**
  * Functional role categories based on virulence gene functions.
@@ -150,22 +151,8 @@ export default function FunctionalContext() {
       <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
         <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">Why this matters</h4>
         <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-          Grouping genes by functional role provides biological context for host- and species-associated patterns observed elsewhere in the dashboard. Differences in functional composition across hosts may reflect variation in host interaction, pathogenic mechanisms, and persistence strategies described in the reference literature.
+          Grouping genes by functional role provides biological context for host- and species-associated patterns observed elsewhere in the dashboard. Differences in functional composition across hosts may reflect variation in host interaction, pathogenic mechanisms, and persistence strategies described in the reference literature.<Citation number={1} />
         </p>
-      </div>
-
-      {/* Reference literature */}
-      <div className="mb-6 text-xs sm:text-sm">
-        <span className="text-gray-600 dark:text-gray-400">Reference literature: </span>
-        <a
-          href="/data/microorganisms-12-02669-v2.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          download
-          className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition"
-        >
-          Campylobacter virulence mechanisms and associated genes (PDF)
-        </a>
       </div>
 
       {/* Gene groups by functional role */}

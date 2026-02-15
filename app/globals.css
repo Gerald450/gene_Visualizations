@@ -19,10 +19,26 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Brief highlight when scrolling to a reference via citation link */
+.reference-highlight {
+  background-color: rgba(59, 130, 246, 0.15);
+  transition: background-color 0.4s ease-out;
+}
+
+@media (prefers-color-scheme: dark) {
+  .reference-highlight {
+    background-color: rgba(96, 165, 250, 0.2);
+  }
 }
 
 @keyframes fadeIn {

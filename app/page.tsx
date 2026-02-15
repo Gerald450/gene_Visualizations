@@ -14,6 +14,8 @@ import FunctionPie from "@/components/visualizations/FunctionPie";
 import Sunburst from "@/components/visualizations/Sunburst";
 import Sankey from "@/components/visualizations/Sankey";
 import FunctionalContext from "@/components/visualizations/FunctionalContext";
+import ReferencesSection from "@/components/ReferencesSection";
+import Citation from "@/components/Citation";
 
 export default function Home() {
   const [topN, setTopN] = useState(20);
@@ -46,7 +48,7 @@ export default function Home() {
           </h1>
           <div className="text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-6 md:mb-10 space-y-4">
             <p>
-              Campylobacter is the leading cause of bacterial gastroenteritis worldwide, and the most common strains, <em>Campylobacter jejuni</em> and <em>Campylobacter coli</em> are commonly studied and their virulence-associated genes profiled. These genes play roles in bacterial survival, host interactions, and environmental persistence.
+              Campylobacter is the leading cause of bacterial gastroenteritis worldwide, and the most common strains, <em>Campylobacter jejuni</em> and <em>Campylobacter coli</em> are commonly studied and their virulence-associated genes profiled. These genes play roles in bacterial survival, host interactions, and environmental persistence.<Citation number={1} />
             </p>
             <p>
               Understanding the variations in gene expression across species and hosts is important for identifying broader patterns rather than individual biological outcomes. This dashboard focuses on visualizing those patterns in a clear and interactive way.
@@ -273,21 +275,7 @@ export default function Home() {
       </Section>
 
       {/* REFERENCES SECTION */}
-      <section id="references" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 text-center bg-gray-50 dark:bg-gray-900 scroll-mt-20">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-gray-100">References</h2>
-          <div className="max-w-3xl mx-auto text-left mt-8 space-y-4">
-            <div className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">
-              <p className="mb-2">
-                <span className="font-medium">ref-001:</span> Example study title — Author et al. (Year)
-              </p>
-              <p className="mb-2">
-                <span className="font-medium">ref-002:</span> Example epidemiology paper — Journal
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ReferencesSection />
 
       {/* TEAM SECTION */}
       <Section id="team" title="Our Team">
