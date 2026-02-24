@@ -61,7 +61,12 @@ export default function Home() {
             </div>
             <div className="mt-4 max-w-3xl mx-auto px-4">
               <p className="text-[9px] sm:text-[10px] text-gray-500/70 leading-snug text-center">
-                Transmission, environmental reservoirs, and risk factors for human Campylobacteriosis. As a zoonotic disease, poultry is the primary reservoir for Campylobacter. In non-endemic regions, consuming raw or undercooked poultry meat and direct contact with animals are the primary risk factors. However, in endemic areas, environmental contamination, including water sources, along with poultry contact, increased meat consumption, and inadequate hygienic practices contribute to the widespread persistence of the bacterium.
+                Transmission, environmental reservoirs, and risk factors for human Campylobacteriosis. As a zoonotic disease, poultry is the primary reservoir for Campylobacter. In non-endemic regions, consuming raw or undercooked poultry meat and direct contact with animals are the primary risk factors. However, in endemic areas, environmental contamination, including water sources, along with poultry contact, increased meat consumption, and inadequate hygienic practices contribute to the widespread persistence of the bacterium.<a
+                  href="#ref-1"
+                  className="align-super text-[7px] sm:text-[8px] text-blue-400 hover:text-blue-300 ml-0.5"
+                >
+                  [1]
+                </a>
               </p>
             </div>
             <p>

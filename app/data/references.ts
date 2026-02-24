@@ -8,7 +8,7 @@ export interface ReferenceItem {
 
 export const references: ReferenceItem[] = [
   {
-    id: 'ref-001',
+    id: 'ref-1',
     number: 1,
     fullCitation:
       'Veronese, P.; Dodi, I. Campylobacter jejuni/coli Infection: Is It Still a Concern? Microorganisms. 2024; 12:2669.',
