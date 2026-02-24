@@ -40,7 +40,7 @@ export default function Home() {
       {/* HERO SECTION */}
       <section id="hero" className="text-center pt-12 sm:pt-16 lg:pt-20 pb-20 md:pb-40 bg-gray-50 dark:bg-gray-900 scroll-mt-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 md:mb-6 text-gray-900 dark:text-gray-100">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-4 md:mb-6 text-gray-900 dark:text-gray-100">
             Virulence Gene Insights.
             <br />
             <span className="text-blue-600 dark:text-blue-400">
