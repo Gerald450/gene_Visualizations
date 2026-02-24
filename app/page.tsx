@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <>
       {/* HERO SECTION */}
-      <section id="hero" className="text-center py-20 md:py-40 bg-gray-50 dark:bg-gray-900 scroll-mt-20 px-4">
+      <section id="hero" className="text-center pt-12 sm:pt-16 lg:pt-20 pb-20 md:pb-40 bg-gray-50 dark:bg-gray-900 scroll-mt-20 px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 md:mb-6 text-gray-900 dark:text-gray-100">
             Virulence Gene Insights.
@@ -51,6 +51,19 @@ export default function Home() {
             <p>
               Campylobacter is the leading cause of bacterial gastroenteritis worldwide, and the most common strains, <em>Campylobacter jejuni</em> and <em>Campylobacter coli</em> are commonly studied and their virulence-associated genes profiled. These genes play roles in bacterial survival, host interactions, and environmental persistence.<Citation number={1} />
             </p>
+            <div className="mt-8 mb-8 flex justify-center px-4">
+              <img
+                src="/cover-page.png"
+                alt="Campylobacter virulence gene visualization overview"
+                className="w-full max-w-3xl rounded-xl shadow-lg"
+                loading="lazy"
+              />
+            </div>
+            <div className="mt-4 max-w-3xl mx-auto px-4">
+              <p className="text-[9px] sm:text-[10px] text-gray-500/70 leading-snug text-center">
+                Transmission, environmental reservoirs, and risk factors for human Campylobacteriosis. As a zoonotic disease, poultry is the primary reservoir for Campylobacter. In non-endemic regions, consuming raw or undercooked poultry meat and direct contact with animals are the primary risk factors. However, in endemic areas, environmental contamination, including water sources, along with poultry contact, increased meat consumption, and inadequate hygienic practices contribute to the widespread persistence of the bacterium.
+              </p>
+            </div>
             <p>
               Understanding the variations in gene expression across species and hosts is important for identifying broader patterns rather than individual biological outcomes. This dashboard focuses on visualizing those patterns in a clear and interactive way.
             </p>
@@ -169,7 +182,7 @@ export default function Home() {
               <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-4">
                 A value of 1 indicates gene presence; 0 indicates absence. When percentages are enabled, values represent prevalence.
               </p>
-              <div className="mb-4 flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center">
+              <div className="mb-4 flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center" suppressHydrationWarning>
                 <label className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
                   <span>Top N:</span>
                   <select
