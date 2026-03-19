@@ -90,11 +90,10 @@ export default function Home() {
               View Storylines
             </a>
             <a
-              href="/data/campylobacter%20(1).xlsx"
-              download="campylobacter (1).xlsx"
+              href="/data-explorer"
               className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-full text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition text-sm sm:text-base w-full sm:w-auto"
             >
-              Download Excel File
+              Explore Dataset
             </a>
             <a
               href="#references"

@@ -18,6 +18,12 @@ export default function Navbar() {
       ],
     },
     {
+      name: "Data",
+      options: [
+        { label: "Data Explorer", href: "/data-explorer" },
+      ],
+    },
+    {
       name: "Visuals",
       options: [
         { label: "Storylines", href: "#visuals" },
