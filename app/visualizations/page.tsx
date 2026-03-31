@@ -2,34 +2,23 @@
 
 import { useState } from 'react';
 import { DataProvider } from '@/components/DataProvider';
-import Heatmap from '@/components/visualizations/Heatmap';
 import CooccurrenceNetwork from '@/components/visualizations/CooccurrenceNetwork';
 import SpeciesBarChart from '@/components/visualizations/SpeciesBarChart';
 import FunctionPie from '@/components/visualizations/FunctionPie';
 import Sunburst from '@/components/visualizations/Sunburst';
 import Sankey from '@/components/visualizations/Sankey';
-import ControlPanel from '@/components/visualizations/ControlPanel';
 import StoryCard from '@/components/StoryCard';
-import FunctionalContext from '@/components/visualizations/FunctionalContext';
+
 
 export default function VisualizationsPage() {
-  const [topN, setTopN] = useState(20);
-  const [showPercent, setShowPercent] = useState(false);
   const [selectedGene, setSelectedGene] = useState<string | null>(null);
 
   const handleGeneClick = (geneName: string) => {
     setSelectedGene(geneName);
-    // Scroll to gene profiles or highlight gene
     const element = document.getElementById('gene-profiles');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-  };
-
-  const handleResetFilters = () => {
-    setTopN(20);
-    setShowPercent(false);
-    setSelectedGene(null);
   };
 
   return (
@@ -46,27 +35,8 @@ export default function VisualizationsPage() {
             </p>
           </div>
 
-          {/* Control Panel */}
-          <ControlPanel
-            topN={topN}
-            showPercent={showPercent}
-            onTopNChange={setTopN}
-            onShowPercentChange={setShowPercent}
-            onResetFilters={handleResetFilters}
-          />
-
           {/* Visualizations Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {/* Heatmap */}
-            <div className="lg:col-span-2">
-              <StoryCard
-                title="Gene Prevalence Heatmap"
-                desc="Prevalence shows what percentage of bacterial isolates from each host contain a specific gene. Each row represents a gene, each column represents a host association (Poultry, Cattle, Swine, Human, etc.). The color intensity indicates the prevalence percentage, with brighter colors meaning higher prevalence (the gene appears in more isolates), while darker colors mean lower or absent prevalence. This helps identify conserved (core) genes versus host-specific genes. Click on a gene cell to view its profile."
-              >
-                <Heatmap onGeneClick={handleGeneClick} />
-              </StoryCard>
-            </div>
-
             {/* Co-occurrence Network */}
             <div className="lg:col-span-2">
               <StoryCard
@@ -89,7 +59,7 @@ export default function VisualizationsPage() {
                 <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-4">
                   This view highlights genes that are shared across species versus those that appear species-specific in the dataset.
                 </p>
-                <SpeciesBarChart topN={topN} showPercent={showPercent} />
+                <SpeciesBarChart topN={20} showPercent={false} />
               </StoryCard>
             </div>
 
@@ -122,19 +92,10 @@ export default function VisualizationsPage() {
                 <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-4">
                   This view highlights which genes are most commonly associated with specific host categories in the dataset.
                 </p>
-                <Sankey topK={topN} onGeneClick={handleGeneClick} />
+                <Sankey topK={20} onGeneClick={handleGeneClick} />
               </StoryCard>
             </div>
 
-            {/* Functional Context */}
-            <div className="lg:col-span-2">
-              <StoryCard
-                title="Functional Context of Virulence Genes"
-                desc="Genes are grouped by established virulence-related roles to support interpretation of host and species distribution patterns."
-              >
-                <FunctionalContext />
-              </StoryCard>
-            </div>
           </div>
 
           {/* Selected Gene Info */}

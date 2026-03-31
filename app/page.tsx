@@ -13,7 +13,7 @@ import SpeciesBarChart from "@/components/visualizations/SpeciesBarChart";
 import FunctionPie from "@/components/visualizations/FunctionPie";
 import Sunburst from "@/components/visualizations/Sunburst";
 import Sankey from "@/components/visualizations/Sankey";
-import FunctionalContext from "@/components/visualizations/FunctionalContext";
+
 import ReferencesSection from "@/components/ReferencesSection";
 import Citation from "@/components/Citation";
 import VizSourceFooter from "@/components/VizSourceFooter";
@@ -244,15 +244,6 @@ export default function Home() {
                 This view highlights which genes are most commonly associated with specific host categories in the dataset.
               </p>
               <Sankey topK={topN} />
-              <VizSourceFooter />
-            </StoryCard>
-
-            {/* Functional Context */}
-            <StoryCard
-              title="Functional Context of Virulence Genes"
-              desc="Genes are grouped by established virulence-related roles to support interpretation of host and species distribution patterns."
-            >
-              <FunctionalContext />
               <VizSourceFooter />
             </StoryCard>
 
