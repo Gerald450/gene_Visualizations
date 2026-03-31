@@ -103,13 +103,11 @@ export default function BarChart() {
   };
 
   // Find host keys from dataset (case-insensitive, trimmed matching)
-  const humansKey = findHostKey(['Humans', 'Human']);
   const foodAnimalsKey = findHostKey(['Food animals']);
   const bothKey = findHostKey(['Multiple (food animals, humans)', 'Multiple']);
 
   // Host category mapping: dataset key -> display label -> color
   const hostCategoryMap: Array<{ key: string | null; label: string; color: string }> = [
-    { key: humansKey, label: 'Humans', color: '#22c55e' }, // green
     { key: foodAnimalsKey, label: 'Food animals', color: '#eab308' }, // yellow
     { key: bothKey, label: 'Both (Humans + Food animals)', color: '#ef4444' }, // red
   ];
@@ -125,16 +123,6 @@ export default function BarChart() {
         backgroundColor: category.color,
       };
     });
-
-  // Pre-compute Both-Humans differences for tooltips
-  const bothHumanDifferences: Record<string, number> = {};
-  if (bothKey && humansKey) {
-    genesToDisplay.forEach(gene => {
-      const bothPrevalence = data.hostStats[bothKey]?.genes[gene] || 0;
-      const humanPrevalence = data.hostStats[humansKey]?.genes[gene] || 0;
-      bothHumanDifferences[gene] = bothPrevalence - humanPrevalence;
-    });
-  }
 
   const chartData = {
     labels: genesToDisplay,
@@ -156,7 +144,7 @@ export default function BarChart() {
       },
       title: {
         display: true,
-        text: 'Gene Prevalence by Host Association (%)',
+        text: 'Gene Virulence by Host Association (%)',
         font: {
           size: isMobile ? 14 : 16,
         },
@@ -170,11 +158,10 @@ export default function BarChart() {
           label: function(tooltipItem: TooltipItem<'bar'>): string | void | string[] {
             const geneName = tooltipItem.label as string;
             const hostGroup = tooltipItem.dataset.label || '';
-            const prevalence = typeof tooltipItem.parsed.y === 'number' 
+            const virulence = typeof tooltipItem.parsed.y === 'number' 
               ? tooltipItem.parsed.y.toFixed(1) 
               : '0.0';
             
-            // Find gene function (check for exact match or partial match)
             let geneFunction = '';
             const geneLower = geneName.toLowerCase();
             for (const [key, value] of Object.entries(geneFunctionMap)) {
@@ -186,20 +173,11 @@ export default function BarChart() {
             
             const lines: string[] = [
               `Host: ${hostGroup}`,
-              `Prevalence: ${prevalence}%`,
+              `Virulence: ${virulence}%`,
             ];
             
             if (geneFunction) {
               lines.push(`Function: ${geneFunction}`);
-            }
-            
-            // Show Both-Humans difference for relevant categories
-            if (hostGroup === 'Both (Humans + Food animals)' || hostGroup === 'Humans') {
-              const difference = bothHumanDifferences[geneName] || 0;
-              const differenceFormatted = Math.abs(difference).toFixed(1);
-              const sign = difference >= 0 ? '+' : '-';
-              const differenceText = `Both to Humans: ${sign}${differenceFormatted} pp`;
-              lines.push(differenceText);
             }
             
             return lines;
@@ -210,15 +188,16 @@ export default function BarChart() {
     scales: {
       y: {
         beginAtZero: true,
-        max: 100,
+        max: 30,
         title: {
           display: true,
-          text: 'Prevalence (%)',
+          text: 'Virulence (%)',
           font: {
             size: isMobile ? 12 : 14,
           },
         },
         ticks: {
+          stepSize: 5,
           font: {
             size: isMobile ? 10 : 12,
           },

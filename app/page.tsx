@@ -135,7 +135,7 @@ export default function Home() {
           <div className="flex flex-col gap-6 sm:gap-8">
             {/* Bar Chart */}
             <StoryCard
-              title="Virulence Gene Prevalence Across Hosts"
+              title="Gene Virulence by Host Association"
               desc="Compare human vs multi-host prevalence and hover to see gene roles and prevalence gaps."
             >
               <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed mb-4">
