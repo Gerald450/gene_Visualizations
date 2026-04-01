@@ -109,7 +109,7 @@ export default function Matrix() {
                   <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center">
                     <span
                       className={`inline-block w-5 h-5 sm:w-6 sm:h-6 rounded ${
-                        presence.jejuni ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
+                        presence.jejuni ? 'bg-green-500' : 'bg-red-500'
                       }`}
                       title={presence.jejuni ? 'Expressed' : 'Not expressed'}
                     />
@@ -117,7 +117,7 @@ export default function Matrix() {
                   <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center">
                     <span
                       className={`inline-block w-5 h-5 sm:w-6 sm:h-6 rounded ${
-                        presence.coli ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
+                        presence.coli ? 'bg-green-500' : 'bg-red-500'
                       }`}
                       title={presence.coli ? 'Expressed' : 'Not expressed'}
                     />
