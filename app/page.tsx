@@ -150,7 +150,7 @@ export default function Home() {
               title="Gene Expression of Virulence Genes Across Species"
               desc="This table shows whether selected virulence-associated genes are expressed in Campylobacter jejuni compared with Campylobacter coli, based on the project dataset. The comparison highlights species-level differences in virulence gene repertoires."
             >
-              <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed mb-4">
+              <p className="text-xs italic text-gray-500 dark:text-gray-400 mt-1 mb-4">
                 Gene expression is derived from genomic annotation. Hover over gene names to view locus tag and chromosome location information.
               </p>
               <Matrix />
