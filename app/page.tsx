@@ -172,6 +172,15 @@ export default function Home() {
               <VizSourceFooter />
             </StoryCard>
 
+            {/* Function Pie Chart */}
+            <StoryCard
+              title="Gene Function Distribution"
+              desc="Distribution of genes by functional category (Adhesion, Invasion, Toxin, Motility, Iron uptake, Stress response, Other). Hover to see counts and percentages."
+            >
+              <FunctionPie />
+              <VizSourceFooter />
+            </StoryCard>
+
             {/* Co-occurrence Network */}
             <StoryCard
               title="Gene Co-Occurrence Network"
@@ -217,15 +226,6 @@ export default function Home() {
                 This view highlights genes that are shared across species versus those that appear species-specific in the dataset.
               </p>
               <SpeciesBarChart topN={topN} showPercent={showPercent} />
-              <VizSourceFooter />
-            </StoryCard>
-
-            {/* Function Pie Chart */}
-            <StoryCard
-              title="Gene Function Distribution"
-              desc="Distribution of genes by functional category (Adhesion, Invasion, Toxin, Motility, Iron uptake, Stress response, Other). Hover to see counts and percentages."
-            >
-              <FunctionPie />
               <VizSourceFooter />
             </StoryCard>
 
