@@ -147,7 +147,7 @@ export default function Home() {
 
             {/* Species Matrix */}
             <StoryCard
-              title="Gene Expression of Virulence Genes Across Species"
+              title="Gene Expression of Virulence Genes Across Species and Strains"
               desc="This table shows whether selected virulence-associated genes are expressed in Campylobacter jejuni compared with Campylobacter coli, based on the project dataset. The comparison highlights species-level differences in virulence gene repertoires."
             >
               <p className="text-xs italic text-gray-500 dark:text-gray-400 mt-1 mb-4">
