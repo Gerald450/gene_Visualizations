@@ -292,29 +292,28 @@ export async function GET() {
       });
     });
 
-    // Build sunburst hierarchy: All isolates -> Species -> Host -> Gene count
-    const sunburstData: Record<string, Record<string, number>> = {};
+    // Build sunburst hierarchy: Human isolates only -> Species -> gene count
+    // (Non-human hosts, including food animals, are excluded from this chart.)
+    const humanSpeciesTotals: Record<string, number> = {};
     Object.keys(isolateMap).forEach(isolateKey => {
       const [host, species] = isolateKey.split('::');
-      const normalizedSpecies = species === 'jejuni' ? 'C. jejuni' : species === 'coli' ? 'C. coli' : 'Other';
-      if (!sunburstData[normalizedSpecies]) {
-        sunburstData[normalizedSpecies] = {};
-      }
-      if (!sunburstData[normalizedSpecies][host]) {
-        sunburstData[normalizedSpecies][host] = 0;
-      }
-      sunburstData[normalizedSpecies][host] += isolateMap[isolateKey].size;
+      if (host !== 'Human') return;
+      const normalizedSpecies =
+        species === 'jejuni' ? 'C. jejuni' : species === 'coli' ? 'C. coli' : 'Other';
+      humanSpeciesTotals[normalizedSpecies] =
+        (humanSpeciesTotals[normalizedSpecies] || 0) + isolateMap[isolateKey].size;
     });
 
-    const sunburstHierarchy: SunburstNode = {
-      name: 'All isolates',
-      children: Object.keys(sunburstData).map(species => ({
+    const speciesChildren: SunburstNode[] = Object.keys(humanSpeciesTotals)
+      .filter(s => humanSpeciesTotals[s] > 0)
+      .map(species => ({
         name: species,
-        children: Object.keys(sunburstData[species]).map(host => ({
-          name: host,
-          value: sunburstData[species][host],
-        })),
-      })),
+        value: humanSpeciesTotals[species],
+      }));
+
+    const sunburstHierarchy: SunburstNode = {
+      name: 'Human isolates',
+      children: speciesChildren,
     };
 
     // Build Sankey diagram data: Host -> Top K genes

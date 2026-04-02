@@ -41,7 +41,7 @@ The application provides 6 interactive visualizations:
 2. **Co-Occurrence Network**: Network graph showing gene co-occurrence patterns
 3. **Species Bar Chart**: Comparison of gene counts between C. jejuni and C. coli
 4. **Function Pie Chart**: Distribution of genes by functional category
-5. **Sunburst Diagram**: Hierarchical view (Species → Host → Gene Count)
+5. **Sunburst Diagram**: Hierarchical view of human isolates (Human isolates → Species → Gene Count)
 6. **Sankey Diagram**: Flow diagram from Host categories to top genes
 
 ### API Endpoint

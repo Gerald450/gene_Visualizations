@@ -18,7 +18,7 @@ interface SunburstProps {
 }
 
 /**
- * Sunburst diagram showing hierarchy: All isolates → Species → Host → Gene count
+ * Sunburst diagram: Human isolates → Species → gene count (non-human hosts excluded).
  */
 export default function Sunburst({ onSectorClick }: SunburstProps) {
   const { data, loading, error } = useData();
@@ -43,10 +43,18 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
     return <div className="text-center py-8 text-red-600 dark:text-red-400">Error: {error || 'No data available'}</div>;
   }
 
+  if (!data.sunburstHierarchy.children || data.sunburstHierarchy.children.length === 0) {
+    return (
+      <div className="text-center py-8 text-gray-600 dark:text-gray-400 text-sm">
+        No human isolate data available for this chart.
+      </div>
+    );
+  }
+
   // Color scheme: Blue tones for C. jejuni, Red/Orange tones for C. coli
   const getColorForSegment = (label: string, parentPath: string): string => {
     // Root level - neutral gray
-    if (label === 'All isolates') {
+    if (label === 'Human isolates' || label === 'All isolates') {
       return '#6b7280';
     }
     
@@ -61,23 +69,21 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
       return '#9ca3af'; // Gray-400
     }
     
-    // Host level - use shades based on parent species
+    // Legacy host ring (if present under species): shade by parent species
     const pathParts = parentPath.split('|');
     const species = pathParts.find(part => part === 'C. jejuni' || part === 'C. coli' || part === 'Other');
-    
+
     if (species === 'C. jejuni') {
-      // Blue shades for C. jejuni hosts
       const blueShades = ['#60a5fa', '#3b82f6', '#2563eb', '#1d4ed8', '#1e40af'];
       const hash = label.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
       return blueShades[hash % blueShades.length];
-    } else if (species === 'C. coli') {
-      // Red/Orange shades for C. coli hosts
+    }
+    if (species === 'C. coli') {
       const redShades = ['#f87171', '#ef4444', '#dc2626', '#b91c1c', '#991b1b'];
       const hash = label.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
       return redShades[hash % redShades.length];
     }
-    
-    // Default gray for other cases
+
     return '#9ca3af';
   };
 
@@ -123,7 +129,7 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
 
   const layout: Record<string, unknown> = {
     title: { 
-      text: 'Species → Host → Gene Count Hierarchy',
+      text: 'Human isolates → Species → Gene count',
       font: { size: isMobile ? 12 : isTablet ? 14 : 16 },
     },
     margin: { 
@@ -156,7 +162,7 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
           </span>
         </div>
         <div className="text-gray-600 dark:text-gray-400 text-xs">
-          <span className="font-medium">Segment size:</span> Gene count
+          <span className="font-medium">Segment size:</span> Gene count (human isolates)
         </div>
       </div>
       <Plot

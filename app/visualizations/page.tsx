@@ -76,8 +76,8 @@ export default function VisualizationsPage() {
             {/* Sunburst */}
             <div>
               <StoryCard
-                title="Hierarchical View: Species → Host → Gene Count"
-                desc="This visualization shows how gene counts are distributed across all isolates, first by species and then by host category. Segment size reflects the relative gene count, and color indicates species."
+                title="Hierarchical View: Species → Human Isolates → Gene Count"
+                desc="This visualization shows how gene counts are distributed across human isolates, grouped by species. Non-human hosts are excluded. Segment size reflects relative gene count; color indicates species."
               >
                 <Sunburst />
               </StoryCard>
