@@ -1,6 +1,7 @@
 'use client';
 
 import { useData } from '../DataProvider';
+import { plotlyBaseLayout, plotlyResponsiveConfig, usePlotlyResizeOnMount } from '@/components/plotlyResponsive';
 import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 
@@ -30,6 +31,8 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
     window.addEventListener('resize', checkScreenSize);
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
+
+  usePlotlyResizeOnMount();
 
   if (loading) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading visualization...</div>;
@@ -77,25 +80,21 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
     },
   ];
 
-  const layout: Record<string, unknown> = {
-    title: { 
+  const layout: Record<string, unknown> = plotlyBaseLayout({
+    title: {
       text: `Distribution Across Host Categories (Top ${topK} Genes)`,
       font: { size: isMobile ? 12 : isTablet ? 13 : 14 },
     },
     font: { size: isMobile ? 10 : isTablet ? 11 : 12 },
-    height: isMobile ? 450 : isTablet ? 550 : 600,
-    margin: { 
-      l: isMobile ? 30 : 50, 
-      r: isMobile ? 20 : 50, 
-      t: isMobile ? 60 : 50, 
-      b: isMobile ? 40 : 50 
+    margin: {
+      l: isMobile ? 40 : 50,
+      r: isMobile ? 40 : 50,
+      t: isMobile ? 60 : 50,
+      b: isMobile ? 40 : 50,
     },
-  };
+  });
 
-  const config: Record<string, unknown> = {
-    responsive: true,
-    displayModeBar: true,
-  };
+  const config: Record<string, unknown> = { ...plotlyResponsiveConfig };
 
   return (
     <div className="w-full">
@@ -119,11 +118,13 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
       <p className="text-gray-500 dark:text-gray-500 text-xs mb-3 italic">
         Tip: Hover over a connection to see the isolate count.
       </p>
-      <Plot
+      <div className="w-full h-[500px] sm:h-[560px]">
+        <Plot
         data={plotData}
         layout={layout}
         config={config}
-        style={{ width: '100%' }}
+        useResizeHandler
+        style={{ width: '100%', height: '100%' }}
         onClick={(event: Record<string, unknown>) => {
           if (onGeneClick && event.points && Array.isArray(event.points) && event.points[0]) {
             const point = event.points[0] as Record<string, unknown>;
@@ -141,6 +142,7 @@ export default function Sankey({ topK = 20, onGeneClick }: SankeyProps) {
           }
         }}
       />
+      </div>
     </div>
   );
 }

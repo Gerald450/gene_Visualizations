@@ -78,6 +78,7 @@ export default function Matrix() {
               <th className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-left font-semibold text-gray-900 dark:text-gray-100 text-xs sm:text-sm">Gene</th>
               <th className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center font-semibold text-gray-900 dark:text-gray-100 text-xs sm:text-sm">C. jejuni</th>
               <th className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center font-semibold text-gray-900 dark:text-gray-100 text-xs sm:text-sm">C. coli</th>
+              <th className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center font-semibold text-gray-900 dark:text-gray-100 text-xs sm:text-sm">Salmonella typhi</th>
             </tr>
           </thead>
           <tbody>
@@ -120,6 +121,14 @@ export default function Matrix() {
                         presence.coli ? 'bg-green-500' : 'bg-red-500'
                       }`}
                       title={presence.coli ? 'Expressed' : 'Not expressed'}
+                    />
+                  </td>
+                  <td className="border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 text-center">
+                    <span
+                      className={`inline-block w-5 h-5 sm:w-6 sm:h-6 rounded ${
+                        presence.salmonellaTyphi ? 'bg-green-500' : 'bg-red-500'
+                      }`}
+                      title={presence.salmonellaTyphi ? 'Expressed' : 'Not expressed'}
                     />
                   </td>
                 </tr>

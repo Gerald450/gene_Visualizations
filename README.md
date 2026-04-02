@@ -51,7 +51,7 @@ The application provides 6 interactive visualizations:
   - `hostStats`: Gene counts and prevalence by host
   - `hostTotals`: Total isolates per host
   - `hostPrevalence`: Prevalence percentages by host and gene
-  - `speciesMatrix`: Presence/absence matrix for C. jejuni vs C. coli
+  - `speciesMatrix`: Presence/absence matrix for C. jejuni, C. coli, and Salmonella typhi (parsed from **Sheet1** of the workbook; species cells map long-form names such as `Campylobacter jejuni (NCTC …)` / `Salmonella typhi`)
   - `cooccurrence`: Nodes and links for network visualization
   - `sunburstHierarchy`: Hierarchy data for sunburst diagram
   - `sankeyData`: Nodes and links for Sankey diagram

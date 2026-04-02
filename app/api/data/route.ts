@@ -45,7 +45,7 @@ interface ProcessedData {
   hostStats: Record<string, { total: number; genes: Record<string, number> }>;
   hostTotals: Record<string, number>;
   hostPrevalence: Record<string, Record<string, number>>;
-  speciesMatrix: Record<string, { jejuni: boolean; coli: boolean }>;
+  speciesMatrix: Record<string, { jejuni: boolean; coli: boolean; salmonellaTyphi: boolean }>;
   processes: Record<string, string[]>;
   cooccurrence: {
     nodes: CooccurrenceNode[];
@@ -81,6 +81,57 @@ function normalizeHost(host: string): string {
   return host || 'Unknown';
 }
 
+/** Internal token for matrix / isolate keys (Salmonella typhi bucket). */
+const SPECIES_TOKEN_SALMONELLA_TYPHI = 'salmonella_typhi' as const;
+
+type SpeciesBucket = 'jejuni' | 'coli' | typeof SPECIES_TOKEN_SALMONELLA_TYPHI;
+
+/**
+ * Prefer Sheet1 — workbook may list multiple sheets; Salmonella typhi data lives on Sheet1 in the project file.
+ */
+function resolvePrimaryDataSheetName(sheetNames: string[]): string {
+  if (!sheetNames.length) return '';
+  const sheet1 = sheetNames.find(n => n.replace(/^\s+|\s+$/g, '').toLowerCase() === 'sheet1');
+  return sheet1 ?? sheetNames[0];
+}
+
+/**
+ * Map raw spreadsheet species text (e.g. "Campylobacter jejuni (NCTC 11168)", "Salmonella typhi ")
+ * to internal buckets. Normalization is for matching only (trim + lowercase).
+ */
+function mapSpeciesBucket(raw: string): SpeciesBucket | null {
+  const t = raw.toLowerCase().trim();
+  if (!t) return null;
+
+  // Salmonella typhi — check before Campylobacter (phrase + typhi fallback for serovar variants)
+  if (t.includes('salmonella typhi') || (t.includes('salmonella') && t.includes('typhi'))) {
+    return SPECIES_TOKEN_SALMONELLA_TYPHI;
+  }
+  // Full organism names from the workbook
+  if (t.includes('campylobacter jejuni')) return 'jejuni';
+  if (t.includes('campylobacter coli')) return 'coli';
+
+  // Short labels (e.g. "C. jejuni") — avoid matching unrelated *coli* organisms
+  if (/\bc\.?\s*jejuni\b/.test(t)) return 'jejuni';
+  if (/\bc\.?\s*coli\b/.test(t)) return 'coli';
+
+  return null;
+}
+
+/** Collect species buckets from a cell that may list one or more comma/semicolon-separated values. */
+function parseSpeciesBuckets(speciesStr: string): SpeciesBucket[] {
+  const buckets = new Set<SpeciesBucket>();
+  const fragments = speciesStr
+    .split(/[,;]/)
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
+  for (const frag of fragments) {
+    const b = mapSpeciesBucket(frag);
+    if (b) buckets.add(b);
+  }
+  return [...buckets];
+}
+
 export async function GET() {
   try {
     // Read Excel file from public directory
@@ -94,8 +145,7 @@ export async function GET() {
     const fileBuffer = fs.readFileSync(filePath);
     const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
 
-    // Get the first sheet
-    const sheetName = workbook.SheetNames[0];
+    const sheetName = resolvePrimaryDataSheetName(workbook.SheetNames);
     const sheet = workbook.Sheets[sheetName];
     const data = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as unknown[];
 
@@ -115,6 +165,15 @@ export async function GET() {
     const clusterCol = headers.findIndex(h => h.includes('cluster'));
     const functionCol = headers.findIndex(h => h.includes('function') || h.includes('role'));
     const speciesCol = headers.findIndex(h => h.includes('species'));
+    // Optional column: Salmonella typhi presence (Y/N, 1/0) — prefer header containing both terms
+    let salmonellaTyphiFlagCol = headers.findIndex(
+      (h, idx) => idx !== speciesCol && h.includes('salmonella') && h.includes('typhi')
+    );
+    if (salmonellaTyphiFlagCol < 0) {
+      salmonellaTyphiFlagCol = headers.findIndex(
+        (h, idx) => idx !== speciesCol && h.includes('salmonella')
+      );
+    }
     const hostCol = headers.findIndex(h => h.includes('host'));
     const notesCol = headers.findIndex(h => h.includes('note') || h.includes('comment'));
 
@@ -123,7 +182,7 @@ export async function GET() {
     const isolateMap: Record<string, Set<string>> = {}; // key: host+species, value: set of genes
     const genes: GeneData[] = [];
     const hostStats: Record<string, Record<string, number> & { totalIsolates: number }> = {};
-    const speciesMatrix: Record<string, { jejuni: boolean; coli: boolean }> = {};
+    const speciesMatrix: Record<string, { jejuni: boolean; coli: boolean; salmonellaTyphi: boolean }> = {};
     const processes: Record<string, string[]> = {};
     const geneCounts: Record<string, number> = {}; // Total occurrences per gene
 
@@ -140,12 +199,24 @@ export async function GET() {
       const hostStr = hostCol >= 0 ? ((row[hostCol] as unknown) || '').toString().trim() : '';
       const notes = notesCol >= 0 ? ((row[notesCol] as unknown) || '').toString().trim() : undefined;
 
-      // Parse species (could be comma-separated or single)
-      const species = speciesStr
-        .split(/[,;]/)
-        .map((s: string) => s.trim())
-        .filter((s: string) => s.length > 0)
-        .map((s: string) => s.toLowerCase().includes('jejuni') ? 'jejuni' : s.toLowerCase().includes('coli') ? 'coli' : s);
+      // Species column: map long-form names (e.g. Campylobacter jejuni (NCTC…), Salmonella typhi) to buckets
+      let species: string[] = parseSpeciesBuckets(speciesStr).map(b => b as string);
+
+      if (salmonellaTyphiFlagCol >= 0) {
+        const raw = ((row[salmonellaTyphiFlagCol] as unknown) || '').toString().trim();
+        const cell = raw.toLowerCase();
+        const positive =
+          raw === '1' ||
+          cell === 'y' ||
+          cell === 'yes' ||
+          cell === 'true' ||
+          cell === 'present' ||
+          cell === 'positive' ||
+          cell === 'x';
+        if (positive && !species.includes(SPECIES_TOKEN_SALMONELLA_TYPHI)) {
+          species = [...species, SPECIES_TOKEN_SALMONELLA_TYPHI];
+        }
+      }
 
       // Parse hosts (could be comma-separated)
       const hosts = hostStr
@@ -167,7 +238,13 @@ export async function GET() {
       geneCounts[geneName] = (geneCounts[geneName] || 0) + 1;
 
       // Track co-occurrence: create isolate keys from host+species combinations
-      const primarySpecies = species.includes('jejuni') ? 'jejuni' : species.includes('coli') ? 'coli' : 'other';
+      const primarySpecies = species.includes('jejuni')
+        ? 'jejuni'
+        : species.includes('coli')
+          ? 'coli'
+          : species.includes(SPECIES_TOKEN_SALMONELLA_TYPHI)
+            ? SPECIES_TOKEN_SALMONELLA_TYPHI
+            : 'other';
       hosts.forEach((host: string) => {
         const isolateKey = `${host}::${primarySpecies}`;
         if (!isolateMap[isolateKey]) {
@@ -183,15 +260,18 @@ export async function GET() {
         hostStats[host].totalIsolates++;
       });
 
-      // Update species matrix
+      // Update species matrix (presence per species for the matrix table)
       if (!speciesMatrix[geneName]) {
-        speciesMatrix[geneName] = { jejuni: false, coli: false };
+        speciesMatrix[geneName] = { jejuni: false, coli: false, salmonellaTyphi: false };
       }
       if (species.includes('jejuni')) {
         speciesMatrix[geneName].jejuni = true;
       }
       if (species.includes('coli')) {
         speciesMatrix[geneName].coli = true;
+      }
+      if (species.includes(SPECIES_TOKEN_SALMONELLA_TYPHI)) {
+        speciesMatrix[geneName].salmonellaTyphi = true;
       }
 
       // Update processes

@@ -31,13 +31,22 @@ function categorizeProcess(functionName: string): string {
   return 'other';
 }
 
-function getSpeciesLabel(speciesMatrix: Record<string, { jejuni: boolean; coli: boolean }>, geneName: string) {
+function getSpeciesLabel(
+  speciesMatrix: Record<string, { jejuni: boolean; coli: boolean; salmonellaTyphi?: boolean }>,
+  geneName: string
+) {
   const m = speciesMatrix?.[geneName];
   if (!m) return 'Other';
-  if (m.jejuni && m.coli) return 'Both (C. jejuni + C. coli)';
-  if (m.jejuni) return 'C. jejuni';
-  if (m.coli) return 'C. coli';
-  return 'Other';
+  const hasSal = Boolean(m.salmonellaTyphi);
+  if (m.jejuni && m.coli && !hasSal) return 'Both (C. jejuni + C. coli)';
+  if (m.jejuni && !m.coli && !hasSal) return 'C. jejuni';
+  if (!m.jejuni && m.coli && !hasSal) return 'C. coli';
+  const parts: string[] = [];
+  if (m.jejuni) parts.push('C. jejuni');
+  if (m.coli) parts.push('C. coli');
+  if (hasSal) parts.push('Salmonella typhi');
+  if (parts.length === 0) return 'Other';
+  return parts.join(' + ');
 }
 
 export default function DataExplorerTable() {

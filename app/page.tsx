@@ -148,7 +148,7 @@ export default function Home() {
             {/* Species Matrix */}
             <StoryCard
               title="Gene Expression of Virulence Genes Across Species and Strains"
-              desc="This table shows whether selected virulence-associated genes are expressed in Campylobacter jejuni compared with Campylobacter coli, based on the project dataset. The comparison highlights species-level differences in virulence gene repertoires."
+              desc="This table shows whether selected virulence-associated genes are expressed in Campylobacter jejuni, Campylobacter coli, and Salmonella typhi, based on the project dataset. The comparison highlights species-level differences in virulence gene repertoires."
             >
               <p className="text-xs italic text-gray-500 dark:text-gray-400 mt-1 mb-4">
                 Gene expression is derived from genomic annotation. Hover over gene names to view locus tag and chromosome location information.
@@ -268,8 +268,6 @@ export default function Home() {
                     style={{
                       minHeight: `${v.height}px`,
                       overflow: "visible",
-                      transform: "scale(1.02)",
-                      transformOrigin: "top center",
                     }}
                   ></iframe>
                   <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-gray-50/90 to-transparent pointer-events-none"></div>

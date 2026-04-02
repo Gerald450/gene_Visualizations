@@ -48,7 +48,7 @@ interface ProcessedData {
   hostStats: Record<string, HostStats>;
   hostTotals: Record<string, number>;
   hostPrevalence: Record<string, Record<string, number>>;
-  speciesMatrix: Record<string, { jejuni: boolean; coli: boolean }>;
+  speciesMatrix: Record<string, { jejuni: boolean; coli: boolean; salmonellaTyphi: boolean }>;
   processes: Record<string, string[]>;
   cooccurrence: {
     nodes: CooccurrenceNode[];

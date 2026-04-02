@@ -1,6 +1,7 @@
 'use client';
 
 import { useData } from '../DataProvider';
+import { plotlyBaseLayout, plotlyResponsiveConfig, usePlotlyResizeOnMount } from '@/components/plotlyResponsive';
 import dynamic from 'next/dynamic';
 import { useState, useEffect, useMemo } from 'react';
 
@@ -86,6 +87,8 @@ export default function VariabilityPlot() {
     window.addEventListener('resize', checkScreenSize);
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
+
+  usePlotlyResizeOnMount();
 
   // Compute variability metrics for each gene
   const geneVariability = useMemo(() => {
@@ -295,7 +298,13 @@ export default function VariabilityPlot() {
   const lowThreshold = quantile(sortedVariability, 0.25); // 25th percentile
   const highThreshold = quantile(sortedVariability, 0.75); // 75th percentile
 
-  const layout: Record<string, unknown> = {
+  const variabilityPlotHeightPx = isMobile
+    ? Math.max(450, geneVariability.length * 8)
+    : isTablet
+      ? Math.max(500, geneVariability.length * 10)
+      : Math.max(550, geneVariability.length * 12);
+
+  const layout: Record<string, unknown> = plotlyBaseLayout({
     title: {
       text: 'Gene Prevalence Variability (Stability)',
       font: { size: isMobile ? 14 : isTablet ? 16 : 18 },
@@ -331,14 +340,9 @@ export default function VariabilityPlot() {
       bordercolor: 'rgba(0, 0, 0, 0.1)',
       borderwidth: 1,
     },
-    height: isMobile 
-      ? Math.max(450, geneVariability.length * 8) 
-      : isTablet 
-      ? Math.max(500, geneVariability.length * 10) 
-      : Math.max(550, geneVariability.length * 12),
     margin: {
       l: isMobile ? 50 : 60,
-      r: isMobile ? 20 : 150,
+      r: isMobile ? 40 : 150,
       t: isMobile ? 80 : 60,
       b: isMobile ? 150 : 180,
     },
@@ -373,11 +377,10 @@ export default function VariabilityPlot() {
         },
       },
     ],
-  };
+  });
 
   const config: Record<string, unknown> = {
-    responsive: true,
-    displayModeBar: true,
+    ...plotlyResponsiveConfig,
     modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d'],
   };
 
@@ -461,12 +464,15 @@ export default function VariabilityPlot() {
       </div>
 
       {/* Plot */}
-      <Plot
-        data={traces}
-        layout={layout}
-        config={config}
-        style={{ width: '100%' }}
-      />
+      <div className="w-full" style={{ height: variabilityPlotHeightPx }}>
+        <Plot
+          data={traces}
+          layout={layout}
+          config={config}
+          useResizeHandler
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
 
       {/* Category Legend with Colors */}
       <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">

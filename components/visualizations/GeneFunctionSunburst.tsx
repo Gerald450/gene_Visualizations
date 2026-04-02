@@ -1,6 +1,7 @@
 'use client';
 
 import { useData } from '../DataProvider';
+import { plotlyBaseLayout, plotlyResponsiveConfig, usePlotlyResizeOnMount } from '@/components/plotlyResponsive';
 import dynamic from 'next/dynamic';
 import { useState, useEffect, useMemo } from 'react';
 
@@ -69,6 +70,8 @@ export default function GeneFunctionSunburst() {
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
+
+  usePlotlyResizeOnMount();
 
   const sunburstArrays = useMemo(() => {
     if (!data?.processes) return null;
@@ -186,17 +189,12 @@ export default function GeneFunctionSunburst() {
     },
   ];
 
-  const layout: Record<string, unknown> = {
-    margin: { l: 0, r: 0, t: 10, b: 10 },
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(0,0,0,0)',
+  const layout: Record<string, unknown> = plotlyBaseLayout({
+    margin: { t: 40, l: 40, r: 40, b: 40 },
     font: { color: '#f9fafb' },
-  };
+  });
 
-  const config: Record<string, unknown> = {
-    responsive: true,
-    displayModeBar: false,
-  };
+  const config: Record<string, unknown> = { ...plotlyResponsiveConfig };
 
   return (
     <div className="w-full">
@@ -223,15 +221,15 @@ export default function GeneFunctionSunburst() {
       </div>
 
       {/* Sunburst chart */}
-      <Plot
-        data={plotData}
-        layout={layout}
-        config={config}
-        style={{
-          width: '100%',
-          height: isMobile ? '420px' : '560px',
-        }}
-      />
+      <div className="w-full h-[500px] sm:h-[560px]">
+        <Plot
+          data={plotData}
+          layout={layout}
+          config={config}
+          useResizeHandler
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useData } from '../DataProvider';
+import { plotlyBaseLayout, plotlyResponsiveConfig, usePlotlyResizeOnMount } from '@/components/plotlyResponsive';
 import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 
@@ -34,6 +35,8 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
     window.addEventListener('resize', checkScreenSize);
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
+
+  usePlotlyResizeOnMount();
 
   if (loading) {
     return <div className="text-center py-8 text-gray-600 dark:text-gray-400">Loading sunburst...</div>;
@@ -127,24 +130,21 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
     },
   ];
 
-  const layout: Record<string, unknown> = {
-    title: { 
+  const layout: Record<string, unknown> = plotlyBaseLayout({
+    title: {
       text: 'Human isolates → Species → Gene count',
       font: { size: isMobile ? 12 : isTablet ? 14 : 16 },
     },
-    margin: { 
-      l: 0, 
-      r: 0, 
-      t: isMobile ? 60 : 50, 
-      b: 0 
+    margin: {
+      t: isMobile ? 60 : 50,
+      l: 40,
+      r: 40,
+      b: 40,
     },
     extendsunburstcolors: false,
-  };
+  });
 
-  const config: Record<string, unknown> = {
-    responsive: true,
-    displayModeBar: true,
-  };
+  const config: Record<string, unknown> = { ...plotlyResponsiveConfig };
 
   return (
     <div className="w-full">
@@ -165,11 +165,13 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
           <span className="font-medium">Segment size:</span> Gene count (human isolates)
         </div>
       </div>
-      <Plot
+      <div className="w-full h-[500px] sm:h-[560px]">
+        <Plot
         data={plotData}
         layout={layout}
         config={config}
-        style={{ width: '100%', height: isMobile ? '450px' : isTablet ? '550px' : '600px' }}
+        useResizeHandler
+        style={{ width: '100%', height: '100%' }}
         onClick={(event: Record<string, unknown>) => {
           if (onSectorClick && event.points && Array.isArray(event.points) && event.points[0]) {
             const point = event.points[0] as Record<string, unknown>;
@@ -179,6 +181,7 @@ export default function Sunburst({ onSectorClick }: SunburstProps) {
           }
         }}
       />
+      </div>
     </div>
   );
 }
