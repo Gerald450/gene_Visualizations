@@ -7,7 +7,7 @@ import { DataProvider } from "@/components/DataProvider";
 import StoryCard from "@/components/StoryCard";
 import BarChart from "@/components/BarChart";
 import Matrix from "@/components/Matrix";
-import GeneProfiles from "@/components/GeneProfiles";
+import GeneFunctionSunburst from "@/components/visualizations/GeneFunctionSunburst";
 import CooccurrenceNetwork from "@/components/visualizations/CooccurrenceNetwork";
 import SpeciesBarChart from "@/components/visualizations/SpeciesBarChart";
 import FunctionPie from "@/components/visualizations/FunctionPie";
@@ -160,15 +160,21 @@ export default function Home() {
             {/* Gene Profiles */}
             <StoryCard
               title="Virulence Genes Grouped by Biological Function"
-              desc="This section organizes virulence-associated genes by their annotated functional roles in the project dataset. Expand each category to view the genes included."
+              desc="This section organizes virulence-associated genes by annotated functional role. Explore the sunburst diagram to see categories and the genes within each group."
             >
-              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm italic mb-4">
-                Tip: Click on a gene to view its full profile and detailed annotation.
-              </p>
               <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mb-4">
                 Note: Refer to the Gene Expression table above for presence patterns across species.
               </p>
-              <GeneProfiles />
+              <GeneFunctionSunburst />
+              <VizSourceFooter />
+            </StoryCard>
+
+            {/* Function Pie Chart */}
+            <StoryCard
+              title="Gene Function Distribution"
+              desc="Distribution of genes by functional category (Adhesion, Invasion, Toxin, Motility, Iron uptake, Stress response, Other). Hover to see counts and percentages."
+            >
+              <FunctionPie />
               <VizSourceFooter />
             </StoryCard>
 
@@ -217,15 +223,6 @@ export default function Home() {
                 This view highlights genes that are shared across species versus those that appear species-specific in the dataset.
               </p>
               <SpeciesBarChart topN={topN} showPercent={showPercent} />
-              <VizSourceFooter />
-            </StoryCard>
-
-            {/* Function Pie Chart */}
-            <StoryCard
-              title="Gene Function Distribution"
-              desc="Distribution of genes by functional category (Adhesion, Invasion, Toxin, Motility, Iron uptake, Stress response, Other). Hover to see counts and percentages."
-            >
-              <FunctionPie />
               <VizSourceFooter />
             </StoryCard>
 
